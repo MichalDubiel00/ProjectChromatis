@@ -3,7 +3,6 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-//creddit to https://github.com/DawnosaurDev/platformer-movement.git
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsFacingRight { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsWallJumping {   get; private set;}
-    //TODO? do we sliding
+    //TODO? do we want sliding
     //public bool IsSliding { get; private set; }
 
     //Timers
@@ -53,8 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
-        //TODO Animation Handler PlayerAnimatorClass
-        //inspiration go to https://github.com/DawnosaurDev/platformer-movement.git
+        //TODO Animation Handler PlayerAnimatorClass    
 
     }
 
