@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
     {
         //TODO:: Handle Death
         Debug.Log("Dead");
-        currentHealth = maxHealth;
+        Loader.Load(Loader.Scene.PlayerHealthScene);
     }
 
 }
