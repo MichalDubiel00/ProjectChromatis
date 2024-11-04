@@ -11,6 +11,7 @@ public class GameInput : MonoBehaviour
   
     PlayerInput input;
     public event EventHandler OnPauseAction;
+    public event EventHandler OnDebugAction;
 
 
 
@@ -22,8 +23,14 @@ public class GameInput : MonoBehaviour
         input.Player.Enable();
 
         input.Player.Pause.performed += Pause_performed;
+        input.Player.Debug.performed += Debug_performed;
 
 
+    }
+
+    private void Debug_performed(InputAction.CallbackContext obj)
+    {
+        OnDebugAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnDestroy()

@@ -11,7 +11,8 @@ public static class Loader
     {
         PlayRoomScene,
         Loading,
-        MainMenuScene
+        MainMenuScene,
+        PlayerHealthScene
     }
 
     private static Scene targetScene;
