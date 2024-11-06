@@ -7,11 +7,15 @@ public class Collector : MonoBehaviour
 {
     //Perhaps it would be better to move the logic to Player class for direct private acces
     public Dictionary<string,int> Colors = new Dictionary<string, int>();
-    //TODO::change it to something prettier like a clor pallate
-    public TextMeshProUGUI colorText;
+    public List<ColorBar> colorBars;
     
+    private int _maxcapacity = 10;//
+
     void Start()
     {
+        //_colorBar.SetMaxColorCapacity(_maxcapacity);
+        foreach (ColorBar colorBar in colorBars)
+            colorBar.SetMaxColorCapacity(_maxcapacity);
         Init();
     }
 
@@ -28,19 +32,21 @@ public class Collector : MonoBehaviour
         //Destroys Color Drop
         Destroy(colourObj.transform.parent.gameObject);
 
-        Colors[color] += amount;
-        UpdateColorUI();
+        if (Colors[color] < _maxcapacity )
+         Colors[color] += amount;
+        UpdateColorUI(color);
 
     }
-    void UpdateColorUI() 
+    void UpdateColorUI(string color) 
     {
-        //better change to inviduals colors latter
-        if (colorText)
-            {
-            colorText.text = "";
-             foreach (KeyValuePair<string,int> color in Colors)
-              colorText.text += $"{color.Key}: {color.Value}\n";
+        foreach (ColorBar colorBar in colorBars)
+        {
+            if (colorBar.ColorName.ToString().Equals(color))
+            { 
+                colorBar.UpdateAmount(Colors[color]);
+                break;
             }
+        }
     }
     void Init()
     {
