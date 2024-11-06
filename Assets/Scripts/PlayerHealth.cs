@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -9,12 +12,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private HealthBar healthBar;
 
     // Start is called before the first frame update
+    UnityEngine.SceneManagement.Scene _scene = new UnityEngine.SceneManagement.Scene();
     void Start()
     {
+        _scene = SceneManager.GetActiveScene(); 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
-    
+
+    public static Loader.Scene targerScene;
 
     public int GetCurrentHealth() { return currentHealth; }
 
@@ -36,7 +42,10 @@ public class PlayerHealth : MonoBehaviour
     {
         //TODO:: Handle Death
         Debug.Log("Dead");
-        Loader.Load(Loader.Scene.PlayerHealthScene);
+        //update to current Scene
+        Loader.Scene scene;
+        Enum.TryParse(_scene.name, out scene);
+        Loader.Load(scene);
     }
 
 }
