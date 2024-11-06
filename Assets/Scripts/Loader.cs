@@ -13,7 +13,8 @@ public static class Loader
         Loading,
         MainMenuScene,
         PlayerHealthScene,
-        CollectingScene
+        CollectingScene,
+        DoorScene
     }
 
     private static Scene targetScene;
