@@ -33,7 +33,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float LastPressedJumpTime {  get; private set; }
 
-
+    public ParticleSystem dust;
+    public ParticleSystem landingDust;
 
     //TODO:
     //set good check parameters for our character
@@ -94,8 +95,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (LastOnGroundTime < -0.1f)
                 {
+
                     //TODO:
                     //AnimHandler.justLanded = true;
+
+                    // Landing Dust abspielen, wenn der Spieler landet
+                    if (landingDust != null)
+                    {
+                        landingDust.Play();
+                    }
                 }
 
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
@@ -207,6 +215,8 @@ public class PlayerMovement : MonoBehaviour
         if (CanJumpCut() || CanWallJumpCut())
             _isJumpCut = true;
     }
+
+  
     #region GENERAL METHODS
     public void SetGravityScale(float scale)
     {
@@ -314,7 +324,14 @@ public class PlayerMovement : MonoBehaviour
             force -= RB.velocity.y;
 
         RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+
+        // Staub beim Sprung abspielen
+        if (dust != null)
+        {
+            dust.Play();
+        }
         #endregion
+
     }
 
     private void WallJump(int dir)
