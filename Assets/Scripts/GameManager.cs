@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameMananger : MonoBehaviour
 {
+    public bool juiceOn = true;
 
     bool isPause = false;
     // Start is called before the first frame update

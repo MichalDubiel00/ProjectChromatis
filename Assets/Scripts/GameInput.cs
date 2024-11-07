@@ -12,6 +12,7 @@ public class GameInput : MonoBehaviour
     PlayerInput input;
     public event EventHandler OnPauseAction;
     public event EventHandler OnDebugAction;
+    public event EventHandler OnToggleAction;
 
 
 
@@ -24,8 +25,14 @@ public class GameInput : MonoBehaviour
 
         input.Player.Pause.performed += Pause_performed;
         input.Player.Debug.performed += Debug_performed;
+        input.Player.Toggle.performed += Toggle_performed;
 
 
+    }
+
+    private void Toggle_performed(InputAction.CallbackContext obj)
+    {
+        OnToggleAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void Debug_performed(InputAction.CallbackContext obj)
@@ -54,7 +61,7 @@ public class GameInput : MonoBehaviour
         return Input.GetKeyUp(KeyCode.Space);
     }
 
-    public Vector2 GetInput()
+    public Vector2 GetMovmentInput()
     {
         float moveHorizontal = Input.GetAxisRaw("Horizontal");
         float moveVertical = Input.GetAxisRaw("Vertical");

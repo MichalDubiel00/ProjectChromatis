@@ -1846,6 +1846,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4489672719506760235, guid: e105a7051a962aa42a9b3447b5684586, type: 3}
   m_PrefabInstance: {fileID: 404549595}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1758634914 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7380618804148662313, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
+  m_PrefabInstance: {fileID: 4641009241517016679}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 508b2149636e95c409a48f8b9eb0668b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1758634918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3755044877396985509, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
+  m_PrefabInstance: {fileID: 4641009241517016679}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3047c20a82bc0ff45a17d2b408b09511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1776940483 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4387444260833279512, guid: 0cd1ea77a1388f142aa71b51b8185d27, type: 3}
@@ -2280,6 +2302,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 767811880947128842, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
+      propertyPath: juicyMovment
+      value: 
+      objectReference: {fileID: 1758634914}
+    - target: {fileID: 767811880947128842, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
+      propertyPath: simpleMovment
+      value: 
+      objectReference: {fileID: 1758634918}
     - target: {fileID: 2872548929429236970, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10.09
@@ -2320,6 +2350,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3755044877396985509, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
+      propertyPath: gameInput
+      value: 
+      objectReference: {fileID: 1776940483}
     - target: {fileID: 4328729688849119208, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
       propertyPath: colorBars.Array.data[0]
       value: 
