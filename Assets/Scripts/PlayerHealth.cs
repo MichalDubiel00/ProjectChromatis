@@ -29,7 +29,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
 
         if (currentHealth < 0) { Die(); }
-        healthBar.SetHealth(currentHealth);
+             healthBar.SetHealth(currentHealth);
     }
 
     public void Heal(int amount) 
@@ -44,8 +44,12 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Dead");
         //update to current Scene
         Loader.Scene scene;
-        Enum.TryParse(_scene.name, out scene);
-        Loader.Load(scene);
+        if(Enum.TryParse(_scene.name, out scene))
+            Loader.Load(scene);
+        else
+            Debug.Log($"Add {_scene.name} to Loader Enum");
+
+
     }
 
 }

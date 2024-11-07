@@ -22,15 +22,15 @@ public class Collector : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ColorPicker picker = collision.GetComponent<ColorPicker>();
-        if (picker) 
+        if (picker != null) 
         {
             CollectColor(collision.gameObject,picker.Amount,picker.MyColor.ToString());
         }
     }
-    void CollectColor(GameObject colourObj,int amount,string color)
+    void CollectColor(GameObject colorObj,int amount,string color)
     {
         //Destroys Color Drop
-        Destroy(colourObj.transform.parent.gameObject);
+        Destroy(colorObj.transform.parent.gameObject);
 
         if (Colors[color] < _maxcapacity )
          Colors[color] += amount;

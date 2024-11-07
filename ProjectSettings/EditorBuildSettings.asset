@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayerHealthScene.unity
     guid: a9171d28fc574d242986aa3c95fcdb95
+  - enabled: 1
+    path: Assets/Scenes/DoorScene.unity
+    guid: 768539bb6d29edb4e99e24a60296308f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 72fd067eca810fe429a9cf279dc754f3, type: 3}
