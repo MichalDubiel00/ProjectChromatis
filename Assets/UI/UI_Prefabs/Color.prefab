@@ -160,9 +160,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3998698017151572891}
   - component: {fileID: 484380865260439271}
-  - component: {fileID: 4142549206225936152}
+  - component: {fileID: 3054270478012142703}
   m_Layer: 5
-  m_Name: HealthUI
+  m_Name: Color
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -779.6451, y: 281.01297}
-  m_SizeDelta: {x: 327.1411, y: 52.565}
+  m_SizeDelta: {x: 300, y: 18}
   m_Pivot: {x: 0.49999994, y: 0.5}
 --- !u!114 &484380865260439271
 MonoBehaviour:
@@ -234,13 +234,13 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
-  m_Value: 1
+  m_MaxValue: 10
+  m_WholeNumbers: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4142549206225936152
+--- !u!114 &3054270478012142703
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,14 +249,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7601627038002613288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 320cfd783432a6f4abdbeded002bf9fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ff22a242942e544b87f517f90570305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBarSlider: {fileID: 484380865260439271}
-  gradient:
+  _colorBarSlider: {fileID: 484380865260439271}
+  _gradient:
     serializedVersion: 2
-    key0: {r: 0.5660378, g: 0.49394804, b: 0.49394804, a: 1}
-    key1: {r: 0.9528302, g: 0.0764062, b: 0.0764062, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -283,4 +283,5 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  fill: {fileID: 1808330551308936770}
+  _fill: {fileID: 1808330551308936770}
+  _colorName: 0

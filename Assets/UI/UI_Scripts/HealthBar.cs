@@ -10,6 +10,7 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Gradient gradient;
     [SerializeField] private Image fill;
 
+
     public void SetMaxHealth(int health)
     {
         healthBarSlider.maxValue = health;
