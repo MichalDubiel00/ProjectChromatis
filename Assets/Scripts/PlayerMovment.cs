@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
         LastPressedJumpTime -= Time.deltaTime;
 
-        _moveInput = gameInput.GetInput();
+        _moveInput = gameInput.GetMovmentInput();
 
         if (gameInput.GetJump())
             OnJumpInput();
