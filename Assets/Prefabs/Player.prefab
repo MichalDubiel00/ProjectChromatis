@@ -34,6 +34,37 @@ Transform:
   - {fileID: 6641091701133211689}
   m_Father: {fileID: 2872548929429236970}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1580993211398873754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6417170788259602065}
+  m_Layer: 6
+  m_Name: Shooting Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6417170788259602065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580993211398873754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.57, y: -0.31, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2872548929429236970}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1581728288787462897
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,6 +227,7 @@ GameObject:
   - component: {fileID: 4328729688849119208}
   - component: {fileID: 2216426213339247353}
   - component: {fileID: 6042740517575608854}
+  - component: {fileID: 1201924144689636092}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -218,6 +250,7 @@ Transform:
   m_Children:
   - {fileID: 6370871559561458700}
   - {fileID: 3915304537164582652}
+  - {fileID: 6417170788259602065}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &8803379200875375045
@@ -392,6 +425,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.2}
   m_EdgeRadius: 0
+--- !u!114 &1201924144689636092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684375797935305534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9782f426ee504814d9fb340e5b89dee2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  colorDroplet: {fileID: 4798955770952541555, guid: 15e713bb749e5f240a0a3c3562fc952c, type: 3}
+  pivotPointThrow: {fileID: 1580993211398873754}
+  strength: 10
 --- !u!1 &7513361424946747167
 GameObject:
   m_ObjectHideFlags: 0
