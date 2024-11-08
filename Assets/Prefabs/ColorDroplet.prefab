@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 1406978521955382155}
   - component: {fileID: 5994089094338208860}
   - component: {fileID: 6021250972461103946}
+  - component: {fileID: -3884282180358817472}
+  - component: {fileID: 4949096061898763088}
   m_Layer: 0
   m_Name: ColorDroplet
   m_TagString: Untagged
@@ -221,3 +223,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stretchFactor: 0.1
   squashDuration: 0.4
+--- !u!114 &-3884282180358817472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798955770952541555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b6d7ad2c3c53b46afbb7e7e2121c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mycolor: 0
+  amount: 1
+--- !u!114 &4949096061898763088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4798955770952541555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403e568308fc9a143a982e3716ce016b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ColorPicker: {fileID: -3884282180358817472}

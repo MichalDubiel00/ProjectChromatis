@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayRoomScene.unity
     guid: 4c08350ebed92d541abb53ac5d3b90d0
+  - enabled: 1
+    path: Assets/Scenes/PlayRoomScene3.unity
+    guid: 7cfe23a12516dcf4497c77ebe5bc3409
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 72fd067eca810fe429a9cf279dc754f3, type: 3}
