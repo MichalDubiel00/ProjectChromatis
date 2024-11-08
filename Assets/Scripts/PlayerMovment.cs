@@ -35,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
 
     public ParticleSystem dust;
     public ParticleSystem landingDust;
-
+    public Animator animator;
+    public AudioSource stepAudio;
     //TODO:
     //set good check parameters for our character
     [Header("Checks")]
@@ -291,6 +292,15 @@ public class PlayerMovement : MonoBehaviour
 		 * RB.velocity = new Vector2(RB.velocity.x + (Time.fixedDeltaTime  * speedDif * accelRate) / RB.mass, RB.velocity.y);
 		 * Time.fixedDeltaTime is by default in Unity 0.02 seconds equal to 50 FixedUpdate() calls per second
 		*/
+        
+        // Animation Parameters ~ Nam
+        animator.SetFloat("speed", Math.Abs(movement));
+        // Step Sound
+        if(Math.Abs(movement) >= 0.1){
+            if(!stepAudio.isPlaying) stepAudio.Play();
+            if(IsJumping || IsWallJumping || _isJumpFalling)stepAudio.Stop();
+        }
+    
     }
 
     private void Turn()
