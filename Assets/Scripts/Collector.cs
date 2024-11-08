@@ -5,11 +5,14 @@ using UnityEngine;
 
 public class Collector : MonoBehaviour
 {
-    //Perhaps it would be better to move the logic to Player class for direct private acces
+    //TODO: it would be better to move the Dictionary to Player Class for easier usebilty
+    //and bug avoidence
+    //if it is here and other class want to acces it it detects collision somhow
+    //dont understand it :)
     public Dictionary<string,int> Colors = new Dictionary<string, int>();
     public List<ColorBar> colorBars;
     
-    private int _maxcapacity = 10;//
+    [SerializeField] private int _maxcapacity = 10;//
 
     void Start()
     {
@@ -22,7 +25,7 @@ public class Collector : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ColorPicker picker = collision.GetComponent<ColorPicker>();
-        if (picker != null) 
+        if (picker != null && collision.transform.parent != null) //temp fix ugly 
         {
             CollectColor(collision.gameObject,picker.Amount,picker.MyColor.ToString());
         }
