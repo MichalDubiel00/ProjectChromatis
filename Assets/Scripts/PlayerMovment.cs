@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem dust;
     public ParticleSystem landingDust;
     public Animator animator;
-
+    public AudioSource stepAudio;
     //TODO:
     //set good check parameters for our character
     [Header("Checks")]
@@ -295,6 +295,12 @@ public class PlayerMovement : MonoBehaviour
         
         // Animation Parameters ~ Nam
         animator.SetFloat("speed", Math.Abs(movement));
+        // Step Sound
+        if(Math.Abs(movement) >= 0.1){
+            if(!stepAudio.isPlaying) stepAudio.Play();
+            if(IsJumping || IsWallJumping || _isJumpFalling)stepAudio.Stop();
+        }
+    
     }
 
     private void Turn()
