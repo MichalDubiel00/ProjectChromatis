@@ -23,5 +23,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DoorScene.unity
     guid: 768539bb6d29edb4e99e24a60296308f
+  - enabled: 1
+    path: Assets/Scenes/PlayRoomScene.unity
+    guid: 4c08350ebed92d541abb53ac5d3b90d0
+  - enabled: 1
+    path: Assets/Scenes/MichalPlayRoomScene.unity
+    guid: c79542b7af8a42f46b589ce0d5d0c4b4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 72fd067eca810fe429a9cf279dc754f3, type: 3}

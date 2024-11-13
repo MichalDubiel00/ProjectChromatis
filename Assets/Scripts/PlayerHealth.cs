@@ -8,34 +8,34 @@ using UnityEngine.SceneManagement;
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth  = 100;
-    private int currentHealth;
-    [SerializeField] private HealthBar healthBar;
+    private int _currentHealth;
+    [SerializeField] private HealthBar _healthBar;
 
     // Start is called before the first frame update
     UnityEngine.SceneManagement.Scene _scene = new UnityEngine.SceneManagement.Scene();
     void Start()
     {
         _scene = SceneManager.GetActiveScene(); 
-        currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        _currentHealth = maxHealth;
+        _healthBar.SetMaxHealth(maxHealth);
     }
 
     public static Loader.Scene targerScene;
 
-    public int GetCurrentHealth() { return currentHealth; }
+    public int GetCurrentHealth() { return _currentHealth; }
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
+        _currentHealth -= damage;
 
-        if (currentHealth < 0) { Die(); }
-             healthBar.SetHealth(currentHealth);
+        if (_currentHealth < 0) { Die(); }
+             _healthBar.SetHealth(_currentHealth);
     }
 
     public void Heal(int amount) 
     {
-        currentHealth += amount;
-        healthBar.SetHealth(currentHealth);
+        _currentHealth += amount;
+        _healthBar.SetHealth(_currentHealth);
     }
 
     public void Die() 

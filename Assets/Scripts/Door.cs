@@ -6,9 +6,11 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     //TODO: find fiting sprites animate it
-    //TODO: make it open with button not on just entering or that you need key or something
+    //TODO: make it open with button not just on entering or that you need key or something
     [SerializeField] Sprite openDoorSprite;
     [SerializeField] Sprite closedDoorSprite;
+    [SerializeField] AudioClip openDoorAudioClip;
+    [SerializeField] AudioClip closedDoorAudioClip;
     private bool isOpen = false;
     private SpriteRenderer spriteRenderer;
 
@@ -23,7 +25,7 @@ public class Door : MonoBehaviour
         Player player = collision.GetComponent<Player>();
         if (player != null)
             OpenDoor();
-        
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -36,6 +38,7 @@ public class Door : MonoBehaviour
     {
         if (isOpen)
         {
+            AudioSource.PlayClipAtPoint(closedDoorAudioClip, transform.position, 1f);
             spriteRenderer.sprite = closedDoorSprite;
             isOpen = false;
         }
@@ -45,6 +48,8 @@ public class Door : MonoBehaviour
         if (!isOpen)
         {
             spriteRenderer.sprite = openDoorSprite;
+            AudioSource.PlayClipAtPoint(openDoorAudioClip, transform.position, 1f);
+
             isOpen = true;
         }
     }
