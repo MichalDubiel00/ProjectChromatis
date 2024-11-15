@@ -9,14 +9,19 @@ public class Collector : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] GameObject colorDropletPrefab; // Prefab of the color droplet
     [SerializeField] Camera mainCamera; // The main camera in the scene
-
-    private void OnTriggerEnter2D(Collider2D collision)
+	SoundManager audioManager;
+	private void Awake()
+	{
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();
+	}
+	private void OnTriggerEnter2D(Collider2D collision)
     {
         ColorPicker picker = collision.GetComponent<ColorPicker>();
-        if (picker != null) 
+        if (picker != null)
         {
             CollectColor(collision.gameObject, picker.Amount, picker.MyColor.ToString());
-        }
+			audioManager.PlaySFX(audioManager.collectDrop);
+		}
     }
     void CollectColor(GameObject colorObj, int amount, string color)
     {

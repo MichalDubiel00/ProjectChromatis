@@ -13,13 +13,16 @@ public class CharacterRanged : MonoBehaviour
     [SerializeField] private float strength = 2.0f;
     Player player;
 
-
-    private Vector3 mousePosition;
+	SoundManager audioManager;
+	private Vector3 mousePosition;
     private Vector2 characterPosition;
     private PlayerMovement movementScript;
-    
-    // Start is called before the first frame update
-    void Start()
+	private void Awake()
+	{
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();
+	}
+	// Start is called before the first frame update
+	void Start()
     {        
         movementScript = gameObject.GetComponent<PlayerMovement>();
         player = gameObject.GetComponent<Player>();
@@ -61,8 +64,8 @@ public class CharacterRanged : MonoBehaviour
             Rigidbody2D rb = ball.GetComponent<Rigidbody2D>();
             var throwVelocity = relativeMousePosition *strength;
             rb.AddForce(throwVelocity, ForceMode2D.Impulse);
-
-            DropletColor dropletColor = ball.GetComponent<DropletColor>();
+			audioManager.PlaySFX(audioManager.shootDrop);
+			DropletColor dropletColor = ball.GetComponent<DropletColor>();
             if (dropletColor != null) 
             {
                 Color color = Color.white; // Default color in case of no match

@@ -7,9 +7,9 @@ public class Player : MonoBehaviour
 {
 
     [SerializeField] PlayerHealth health;
-
-    //Temp for Playroom presentation
-    public bool juiceOn = true;
+    SoundManager audioManager;
+	//Temp for Playroom presentation
+	public bool juiceOn = true;
     public PlayerMovement juicyMovment;
     public SimplePlayerMovment simpleMovment;
 
@@ -30,9 +30,12 @@ public class Player : MonoBehaviour
     public int MaxCapacity { get => _maxCapacity; }
 
 
-
-    // Start is called before the first frame update
-    void Start()
+	private void Awake()
+	{
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();
+	}
+	// Start is called before the first frame update
+	void Start()
     {
         GameInput.instance.OnToggleAction += GameInput_OnToggleAction; ;
         GameInput.instance.OnDebugAction += GameInput_OnDebugAction;
@@ -51,7 +54,8 @@ public class Player : MonoBehaviour
         ChangeColor(_currentColor.ToString());
         UpdateColorUI(_currentColor.ToString());
 
-        Debug.Log(_currentColor.ToString());
+		audioManager.PlaySFX(audioManager.switchColor);
+		Debug.Log(_currentColor.ToString());
     }
 
     private void GameInput_OnNextColorAction(object sender, System.EventArgs e)
@@ -60,8 +64,8 @@ public class Player : MonoBehaviour
         ChangeColor(_currentColor.ToString());
         UpdateColorUI(_currentColor.ToString());
 
-
-        Debug.Log(_currentColor.ToString());
+		audioManager.PlaySFX(audioManager.switchColor);
+		Debug.Log(_currentColor.ToString());
 
     }
 
@@ -80,6 +84,7 @@ public class Player : MonoBehaviour
             Debug.Log("Juicy Movment Off");
             simpleMovment.enabled = true;
             juicyMovment.enabled = false;
+            
         }
     }
 

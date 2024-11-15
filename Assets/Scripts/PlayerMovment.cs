@@ -37,6 +37,9 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem landingDust;
     public Animator animator;
     public AudioSource stepAudio;
+	public AudioSource stepAudio2;
+	public bool piv;
+	SoundManager audioManager;
     //TODO:
     //set good check parameters for our character
     [Header("Checks")]
@@ -54,9 +57,12 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
-        //TODO Animation Handler PlayerAnimatorClass    
+		//TODO Animation Handler PlayerAnimatorClass    
+		
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();
+		
 
-    }
+	}
 
     private void Start()
     {
@@ -104,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
                     if (landingDust != null)
                     {
                         landingDust.Play();
+                        audioManager.PlaySFX(audioManager.JumpLand);
                     }
                 }
 
@@ -297,8 +304,25 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("speed", Math.Abs(movement));
         // Step Sound
         if(Math.Abs(movement) >= 0.1){
-            if(!stepAudio.isPlaying) stepAudio.Play();
-            if(IsJumping || IsWallJumping || _isJumpFalling)stepAudio.Stop();
+            if (piv == false)
+            {
+                if (!stepAudio.isPlaying && !stepAudio2.isPlaying)
+                {
+                    stepAudio.Play();
+					piv = true;
+				}
+                if (IsJumping || IsWallJumping || _isJumpFalling) stepAudio.Stop();
+                
+            }else
+            {
+				if (!stepAudio2.isPlaying && !stepAudio.isPlaying) 
+                {
+					stepAudio2.Play();
+					piv = false;
+				}
+				if (IsJumping || IsWallJumping || _isJumpFalling) stepAudio2.Stop();
+				
+			}
         }
     
     }
@@ -341,7 +365,7 @@ public class PlayerMovement : MonoBehaviour
             dust.Play();
         }
         #endregion
-
+        audioManager.PlaySFX(audioManager.JumpStart);
     }
 
     private void WallJump(int dir)
