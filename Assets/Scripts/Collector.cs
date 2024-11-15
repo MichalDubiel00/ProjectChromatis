@@ -1,60 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Collector : MonoBehaviour
 {
-    //TODO: it would be better to move the Dictionary to Player Class for easier usebilty
-    //and bug avoidence
-    //if it is here and other class want to acces it it detects collision somhow
-    //dont understand it :)
-    public Dictionary<string,int> Colors = new Dictionary<string, int>();
-    public List<ColorBar> colorBars;
-    
-    [SerializeField] private int _maxcapacity = 10;//
-
-    void Start()
-    {
-        //_colorBar.SetMaxColorCapacity(_maxcapacity);
-        foreach (ColorBar colorBar in colorBars)
-            colorBar.SetMaxColorCapacity(_maxcapacity);
-        Init();
-    }
+    [SerializeField] Player player;
+    [SerializeField] GameObject colorDropletPrefab; // Prefab of the color droplet
+    [SerializeField] Camera mainCamera; // The main camera in the scene
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         ColorPicker picker = collision.GetComponent<ColorPicker>();
-        if (picker != null && collision.transform.parent != null) //temp fix ugly 
+        if (picker != null) 
         {
-            CollectColor(collision.gameObject,picker.Amount,picker.MyColor.ToString());
+            CollectColor(collision.gameObject, picker.Amount, picker.MyColor.ToString());
         }
     }
-    void CollectColor(GameObject colorObj,int amount,string color)
+    void CollectColor(GameObject colorObj, int amount, string color)
     {
         //Destroys Color Drop
-        Destroy(colorObj.transform.parent.gameObject);
+        Destroy(colorObj);
 
-        if (Colors[color] < _maxcapacity )
-         Colors[color] += amount;
-        UpdateColorUI(color);
+        player.Colors[color] = Mathf.Min(player.Colors[color] + amount, player.MaxCapacity);
+        player.ChangeColor(color);
+        player.UpdateColorUI(color);
+        spawnCollectible();
+
 
     }
-    void UpdateColorUI(string color) 
+    void spawnCollectible()
     {
-        foreach (ColorBar colorBar in colorBars)
+        // Get the camera's viewport boundaries in world space
+        float cameraWidth = mainCamera.orthographicSize * mainCamera.aspect; // Horizontal size in world space
+        float cameraHeight = mainCamera.orthographicSize; // Vertical size in world space
+
+        // Generate random positions within the camera's viewport
+        float spawnX = Random.Range(-cameraWidth, cameraWidth);
+        float spawnY = Random.Range(-cameraHeight, cameraHeight);
+
+        // Create a position vector for the spawn location
+        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0f);
+
+        // Instantiate the color droplet prefab at the random position
+        // Instantiate the color droplet prefab at the random position
+        GameObject spawnedDroplet = Instantiate(colorDropletPrefab, spawnPosition, Quaternion.identity);
+
+      
+        DropletColor dropletColor = spawnedDroplet.GetComponent<DropletColor>();
+        ColorPicker colorPicker = spawnedDroplet.GetComponent<ColorPicker>();
+
+        if (dropletColor != null && colorPicker != null)
         {
-            if (colorBar.ColorName.ToString().Equals(color))
-            { 
-                colorBar.UpdateAmount(Colors[color]);
-                break;
+            Color randomColor = Color.white;
+            switch (GetRandomColor())
+            {
+                case 0:
+                    colorPicker.MyColor = ColorPicker.ColorEnum.Red;
+                    randomColor = Color.red;
+                    break;
+                case 1:
+                    colorPicker.MyColor = ColorPicker.ColorEnum.Blue;
+                    randomColor = Color.blue;
+                    break;
+                case 2:
+                    colorPicker.MyColor = ColorPicker.ColorEnum.Yellow;
+                    randomColor = Color.yellow;
+                    break;
             }
+            dropletColor.SetColor(randomColor);
         }
+
     }
-    void Init()
+    int GetRandomColor()
     {
-        Colors.Add("Red", 0);
-        Colors.Add("Blue", 0);
-        Colors.Add("Yellow", 0);
+        // Randomly select a color from the available options
+        return Random.Range(0, 3); // 0, 1, or 2 for Red, Blue, Yellow
+        
     }
 }

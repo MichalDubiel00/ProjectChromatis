@@ -6,29 +6,54 @@ using UnityEngine.UI;
 
 public class ColorBar : MonoBehaviour
 {
-    [SerializeField] private Slider _colorBarSlider;
-    [SerializeField] private Gradient _gradient;
-    [SerializeField] private Image _fill;
-    public enum ColorNameEnum 
-    {
-        Red, Yellow, Blue
-    }
-    [SerializeField] ColorNameEnum _colorName;
-    public ColorNameEnum ColorName { get => _colorName; }
-
-
+    [SerializeField] Slider _colorBarSlider;
+    [SerializeField] Image _fill;
+    
+    [SerializeField] Gradient _blueGradient;
+    [SerializeField] Gradient _redGradient;
+    [SerializeField] Gradient _yellowGradient;
+ 
+    Gradient _currentGradient;
+    
     public void SetMaxColorCapacity(int maxCapacity)
     {
         _colorBarSlider.maxValue = maxCapacity;
 
-        _fill.color = _gradient.Evaluate(1f);
-
+        UpdateFillColor();
     }
 
     public void UpdateAmount(int colorValue)
     {
         _colorBarSlider.value = colorValue;
 
-        _fill.color = _gradient.Evaluate(_colorBarSlider.normalizedValue);
+        UpdateFillColor();
+    }
+    
+    // Sets the color gradient based on the player's current color
+    public void SetColorGradient(string playerColor)
+    {
+        // Select the appropriate gradient based on the player's color
+        switch (playerColor)
+        {
+            case "Red":
+                _currentGradient = _redGradient;
+                break;
+            case "Blue":
+                _currentGradient = _blueGradient;
+                break;
+            case "Yellow":
+                _currentGradient = _yellowGradient;
+                break;
+        }
+        UpdateFillColor();
+    }
+
+    private void UpdateFillColor()
+    {
+        if (_currentGradient != null)
+        {
+            _fill.color = _currentGradient.Evaluate(_colorBarSlider.normalizedValue);
+        }
     }
 }
+

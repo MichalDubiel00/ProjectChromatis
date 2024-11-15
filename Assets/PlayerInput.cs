@@ -71,6 +71,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PreviousColor"",
+                    ""type"": ""Button"",
+                    ""id"": ""043a4dff-0f23-4e05-a0ed-151c77c3cb69"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextColor"",
+                    ""type"": ""Button"",
+                    ""id"": ""bcad4bdf-6e70-4f73-956f-8c3ead2e93d8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -154,7 +172,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0c41412d-4e4b-494a-99fd-8486e56e57d3"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -172,6 +190,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Toggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b83587d-eee7-43f9-bad6-bd539d62291a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PreviousColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""083c5423-4a90-45f3-b951-958d0ed94332"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextColor"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +225,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Debug = m_Player.FindAction("Debug", throwIfNotFound: true);
         m_Player_Toggle = m_Player.FindAction("Toggle", throwIfNotFound: true);
+        m_Player_PreviousColor = m_Player.FindAction("PreviousColor", throwIfNotFound: true);
+        m_Player_NextColor = m_Player.FindAction("NextColor", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -256,6 +298,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Debug;
     private readonly InputAction m_Player_Toggle;
+    private readonly InputAction m_Player_PreviousColor;
+    private readonly InputAction m_Player_NextColor;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -265,6 +309,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Debug => m_Wrapper.m_Player_Debug;
         public InputAction @Toggle => m_Wrapper.m_Player_Toggle;
+        public InputAction @PreviousColor => m_Wrapper.m_Player_PreviousColor;
+        public InputAction @NextColor => m_Wrapper.m_Player_NextColor;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -289,6 +335,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Toggle.started += instance.OnToggle;
             @Toggle.performed += instance.OnToggle;
             @Toggle.canceled += instance.OnToggle;
+            @PreviousColor.started += instance.OnPreviousColor;
+            @PreviousColor.performed += instance.OnPreviousColor;
+            @PreviousColor.canceled += instance.OnPreviousColor;
+            @NextColor.started += instance.OnNextColor;
+            @NextColor.performed += instance.OnNextColor;
+            @NextColor.canceled += instance.OnNextColor;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -308,6 +360,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Toggle.started -= instance.OnToggle;
             @Toggle.performed -= instance.OnToggle;
             @Toggle.canceled -= instance.OnToggle;
+            @PreviousColor.started -= instance.OnPreviousColor;
+            @PreviousColor.performed -= instance.OnPreviousColor;
+            @PreviousColor.canceled -= instance.OnPreviousColor;
+            @NextColor.started -= instance.OnNextColor;
+            @NextColor.performed -= instance.OnNextColor;
+            @NextColor.canceled -= instance.OnNextColor;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -332,5 +390,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnDebug(InputAction.CallbackContext context);
         void OnToggle(InputAction.CallbackContext context);
+        void OnPreviousColor(InputAction.CallbackContext context);
+        void OnNextColor(InputAction.CallbackContext context);
     }
 }
