@@ -25,31 +25,27 @@ public class CharacterRanged : MonoBehaviour
 	void Start()
     {        
         movementScript = gameObject.GetComponent<PlayerMovement>();
+        GameInput.instance.OnThrowAction += Instance_OnThrowAction;
         player = gameObject.GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Instance_OnThrowAction(object sender, System.EventArgs e)
     {
-        if (Input.GetMouseButtonDown(0))
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        characterPosition = mousePosition - gameObject.transform.position;
+        characterPosition.Normalize();
+        throwDroplet(characterPosition);
+
+        if (movementScript.IsFacingRight && transform.position.x > mousePosition.x)
         {
-            mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            characterPosition = mousePosition - gameObject.transform.position;
-            characterPosition.Normalize();
-            throwDroplet(characterPosition);
-
-            if (movementScript.IsFacingRight && transform.position.x > mousePosition.x)
-            {
-                movementScript.CheckDirectionToFace(!movementScript.IsFacingRight);
-            }
-            if (!movementScript.IsFacingRight && transform.position.x < mousePosition.x)
-            {
-                movementScript.CheckDirectionToFace(!movementScript.IsFacingRight);
-            }
-
-
-        }   
+            movementScript.CheckDirectionToFace(!movementScript.IsFacingRight);
+        }
+        if (!movementScript.IsFacingRight && transform.position.x < mousePosition.x)
+        {
+            movementScript.CheckDirectionToFace(!movementScript.IsFacingRight);
+        }
     }
+
 
     private void throwDroplet(Vector2 relativeMousePosition)
     {

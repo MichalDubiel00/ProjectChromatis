@@ -89,6 +89,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Throw"",
+                    ""type"": ""Button"",
+                    ""id"": ""6dae4ab9-3119-4f9e-9a02-88b6dc3f2785"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""NextColor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9c4fb26b-8741-4351-9bb4-772813c96d1d"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throw"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,6 +247,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Toggle = m_Player.FindAction("Toggle", throwIfNotFound: true);
         m_Player_PreviousColor = m_Player.FindAction("PreviousColor", throwIfNotFound: true);
         m_Player_NextColor = m_Player.FindAction("NextColor", throwIfNotFound: true);
+        m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -300,6 +321,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Toggle;
     private readonly InputAction m_Player_PreviousColor;
     private readonly InputAction m_Player_NextColor;
+    private readonly InputAction m_Player_Throw;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -311,6 +333,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Toggle => m_Wrapper.m_Player_Toggle;
         public InputAction @PreviousColor => m_Wrapper.m_Player_PreviousColor;
         public InputAction @NextColor => m_Wrapper.m_Player_NextColor;
+        public InputAction @Throw => m_Wrapper.m_Player_Throw;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -341,6 +364,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @NextColor.started += instance.OnNextColor;
             @NextColor.performed += instance.OnNextColor;
             @NextColor.canceled += instance.OnNextColor;
+            @Throw.started += instance.OnThrow;
+            @Throw.performed += instance.OnThrow;
+            @Throw.canceled += instance.OnThrow;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -366,6 +392,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @NextColor.started -= instance.OnNextColor;
             @NextColor.performed -= instance.OnNextColor;
             @NextColor.canceled -= instance.OnNextColor;
+            @Throw.started -= instance.OnThrow;
+            @Throw.performed -= instance.OnThrow;
+            @Throw.canceled -= instance.OnThrow;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -392,5 +421,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnToggle(InputAction.CallbackContext context);
         void OnPreviousColor(InputAction.CallbackContext context);
         void OnNextColor(InputAction.CallbackContext context);
+        void OnThrow(InputAction.CallbackContext context);
     }
 }

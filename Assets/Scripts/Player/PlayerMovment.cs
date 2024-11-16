@@ -14,8 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public bool IsFacingRight { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsWallJumping {   get; private set;}
-    //TODO? do we want sliding
-    //public bool IsSliding { get; private set; }
+    public bool IsSliding { get; private set; }
 
     //Timers
     public float LastOnGroundTime { get; private set; }
@@ -40,8 +39,7 @@ public class PlayerMovement : MonoBehaviour
 	public AudioSource stepAudio2;
 	public bool piv;
 	SoundManager audioManager;
-    //TODO:
-    //set good check parameters for our character
+    
     [Header("Checks")]
     [SerializeField] private Transform _groundCheckPoint;
     //Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
@@ -176,7 +174,12 @@ public class PlayerMovement : MonoBehaviour
             WallJump(_lastWallJumpDir);
         }
         #endregion
-        //TODO SLIDING
+        #region SLIDE CHECKS
+        if (CanSlide() && ((LastOnWallLeftTime > 0 && _moveInput.x < 0) || (LastOnWallRightTime > 0 && _moveInput.x > 0)))
+            IsSliding = true;
+        else
+            IsSliding = false;
+        #endregion
 
         //GRAVITY
         #region GRAVITY
@@ -207,10 +210,17 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Handle Run
         if (IsWallJumping)
             Run(Data.wallJumpRunLerp);
         else
             Run(1);
+
+        //Handle Slide
+        if (IsSliding)
+        {
+            Slide();
+        }
     }
     
     public void OnJumpInput()
@@ -301,7 +311,7 @@ public class PlayerMovement : MonoBehaviour
 		*/
         
         // Animation Parameters ~ Nam
-        animator.SetFloat("speed", Math.Abs(movement));
+            animator.SetFloat("speed", Math.Abs(movement));
         // Step Sound
         if(Math.Abs(movement) >= 0.1){
             if (piv == false)
@@ -311,16 +321,17 @@ public class PlayerMovement : MonoBehaviour
                     stepAudio.Play();
 					piv = true;
 				}
-                if (IsJumping || IsWallJumping || _isJumpFalling) stepAudio.Stop();
+                if (IsJumping || IsWallJumping || _isJumpFalling || IsSliding) stepAudio.Stop();
                 
-            }else
+            }
+            else
             {
 				if (!stepAudio2.isPlaying && !stepAudio.isPlaying) 
                 {
 					stepAudio2.Play();
 					piv = false;
 				}
-				if (IsJumping || IsWallJumping || _isJumpFalling) stepAudio2.Stop();
+				if (IsJumping || IsWallJumping || _isJumpFalling || IsSliding) stepAudio2.Stop();
 				
 			}
         }
@@ -391,6 +402,18 @@ public class PlayerMovement : MonoBehaviour
         RB.AddForce(force, ForceMode2D.Impulse);
         #endregion
     }
+    private void Slide()
+    {
+        //Works the same as the Run but only in the y-axis
+        //THis seems to work fine, buit maybe you'll find a better way to implement a slide into this system
+        float speedDif = Data.slideSpeed - RB.velocity.y;
+        float movement = speedDif * Data.slideAccel;
+        //So, we clamp the movement here to prevent any over corrections (these aren't noticeable in the Run)
+        //The force applied can't be greater than the (negative) speedDifference * by how many times a second FixedUpdate() is called. For more info research how force are applied to rigidbodies.
+        movement = Mathf.Clamp(movement, -Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDif) * (1 / Time.fixedDeltaTime));
+
+        RB.AddForce(movement * Vector2.up);
+    }
     #endregion
     #region CHECK METHODS
     public void CheckDirectionToFace(bool isMovingRight)
@@ -418,6 +441,13 @@ public class PlayerMovement : MonoBehaviour
     private bool CanWallJumpCut()
     {
         return IsWallJumping && RB.velocity.y > 0;
+    }
+    public bool CanSlide()
+    {
+        if (LastOnWallTime > 0 && !IsJumping && !IsWallJumping && LastOnGroundTime <= 0)
+            return true;
+        else
+            return false;
     }
     #endregion
 

@@ -17,6 +17,8 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnToggleAction;
     public event EventHandler OnNextColorAction;
     public event EventHandler OnPreviousColorAction;
+    public event EventHandler OnThrowAction;
+
 
 
 
@@ -31,8 +33,13 @@ public class GameInput : MonoBehaviour
         input.Player.Toggle.performed += Toggle_performed;
         input.Player.NextColor.performed += NextColor_performed;
         input.Player.PreviousColor.performed += PreviousColor_performed;
+        input.Player.Throw.performed += Throw_performed;
 
+    }
 
+    private void Throw_performed(InputAction.CallbackContext obj)
+    {
+        OnThrowAction?.Invoke(this, EventArgs.Empty);
     }
 
     private void PreviousColor_performed(InputAction.CallbackContext obj)
@@ -60,6 +67,11 @@ public class GameInput : MonoBehaviour
     private void OnDestroy()
     {
         input.Player.Pause.performed -= Pause_performed;
+        input.Player.Debug.performed -= Debug_performed;
+        input.Player.Toggle.performed -= Toggle_performed;
+        input.Player.NextColor.performed -= NextColor_performed;
+        input.Player.PreviousColor.performed -= PreviousColor_performed;
+        input.Player.Throw.performed -= Throw_performed;
 
         input.Dispose();
     }
