@@ -6,6 +6,7 @@ public class PlatformController : MonoBehaviour
 {
     public Transform posA, posB;
     bool moveOn = false;
+    [SerializeField] bool canBeBlue = true, canBeRed = true, canBeYellow = true;
     ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
     private SpriteRenderer _SpriteRenderer;
 
@@ -35,22 +36,8 @@ public class PlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (currentColor) 
-        {
-            case ColorPicker.ColorEnum.Blue:
-                if (_SpriteRenderer.color != new Color(0, 0, 255))
-                     _SpriteRenderer.color = new Color(0,0,255);
-                MovePlatform();
-                break;
-            case ColorPicker.ColorEnum.Red:
-                if (_SpriteRenderer.color != new Color(255, 0, 0))
-                    _SpriteRenderer.color = new Color(255,0,0);
-                break;
-            case ColorPicker.ColorEnum.Yellow:
-                if (_SpriteRenderer.color != Color.yellow)
-                    _SpriteRenderer.color = Color.yellow;
-                break; 
-        }
+        if (moveOn)
+            MovePlatform();
 
     }
 
@@ -62,5 +49,33 @@ public class PlatformController : MonoBehaviour
             targetPos = posA.position;
 
         transform.position = Vector2.MoveTowards(transform.position, targetPos, 1 * Time.deltaTime);
+    }
+
+    public void ChangePlatformProporties(ColorPicker.ColorEnum color)
+    {
+        switch (color)
+        {
+            case ColorPicker.ColorEnum.Blue:
+                if (canBeBlue)
+                {
+                    Debug.Log("Hello");
+
+                    if (_SpriteRenderer.color != new Color(0, 0, 255))
+                        _SpriteRenderer.color = new Color(0, 0, 255);
+                    moveOn = true;
+                }
+                break;
+            case ColorPicker.ColorEnum.Red:
+                if (_SpriteRenderer.color != new Color(255, 0, 0))
+                    _SpriteRenderer.color = new Color(255, 0, 0);
+                moveOn = false;
+
+                break;
+            case ColorPicker.ColorEnum.Yellow:
+                if (_SpriteRenderer.color != Color.yellow)
+                    _SpriteRenderer.color = Color.yellow;
+                moveOn = false;
+                break;
+        }
     }
 }

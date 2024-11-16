@@ -58,7 +58,7 @@ public class ColorDroppletController : MonoBehaviour
             return;
 
         if (platform != null)
-            ChangePlatformProporties(platform);
+            platform.ChangePlatformProporties(currentColor);
         if(collision.gameObject.CompareTag("Wall"))
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 90);
         else
@@ -96,8 +96,4 @@ public class ColorDroppletController : MonoBehaviour
         yield return new WaitForSeconds(squashDuration);
     }
 
-    void ChangePlatformProporties(PlatformController platform) 
-    {
-        platform.CurrentColor = currentColor;
-    }
 }
