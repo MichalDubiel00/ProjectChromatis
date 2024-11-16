@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public SimplePlayerMovment simpleMovment;
 
     //Collected Colors capacity
-    int colorCount = Enum.GetValues(typeof(ColorPicker.ColorEnum)).Length;
+    int colorCount = Enum.GetValues(typeof(ColorPicker.ColorEnum)).Length-1;
 
     public Dictionary<ColorPicker.ColorEnum, int> Colors = new Dictionary<ColorPicker.ColorEnum, int>();
     public ColorBar colorBar;

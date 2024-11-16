@@ -62,6 +62,8 @@ public class CharacterRanged : MonoBehaviour
             rb.AddForce(throwVelocity, ForceMode2D.Impulse);
 			audioManager.PlaySFX(audioManager.shootDrop);
 			DropletColor dropletColor = ball.GetComponent<DropletColor>();
+            ColorDroppletController colorDroppletController = ball.GetComponent<ColorDroppletController>();
+            colorDroppletController.currentColor = choosenColor;
             if (dropletColor != null) 
             {
                 Color color = Color.white; // Default color in case of no match
