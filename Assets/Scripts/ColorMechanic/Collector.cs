@@ -19,11 +19,11 @@ public class Collector : MonoBehaviour
         ColorPicker picker = collision.GetComponent<ColorPicker>();
         if (picker != null)
         {
-            CollectColor(collision.gameObject, picker.Amount, picker.MyColor.ToString());
+            CollectColor(collision.gameObject, picker.Amount, picker.MyColor);
 			audioManager.PlaySFX(audioManager.collectDrop);
 		}
     }
-    void CollectColor(GameObject colorObj, int amount, string color)
+    void CollectColor(GameObject colorObj, int amount, ColorPicker.ColorEnum color)
     {
         //Destroys Color Drop
         Destroy(colorObj);

@@ -30,18 +30,18 @@ public class ColorBar : MonoBehaviour
     }
     
     // Sets the color gradient based on the player's current color
-    public void SetColorGradient(string playerColor)
+    public void SetColorGradient(ColorPicker.ColorEnum playerColor)
     {
         // Select the appropriate gradient based on the player's color
         switch (playerColor)
         {
-            case "Red":
+            case ColorPicker.ColorEnum.Red:
                 _currentGradient = _redGradient;
                 break;
-            case "Blue":
+            case ColorPicker.ColorEnum.Blue:
                 _currentGradient = _blueGradient;
                 break;
-            case "Yellow":
+            case ColorPicker.ColorEnum.Yellow:
                 _currentGradient = _yellowGradient;
                 break;
         }

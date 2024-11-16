@@ -49,7 +49,7 @@ public class CharacterRanged : MonoBehaviour
 
     private void throwDroplet(Vector2 relativeMousePosition)
     {
-        string choosenColor = player.CurrentColor.ToString();
+        ColorPicker.ColorEnum choosenColor = player.CurrentColor;
         if (player.Colors[choosenColor] <= 0)
             return;
         else
@@ -67,13 +67,13 @@ public class CharacterRanged : MonoBehaviour
                 Color color = Color.white; // Default color in case of no match
                 switch (player.CurrentColor)
                 {
-                    case Player.ColorsEnum.Red:
+                    case ColorPicker.ColorEnum.Red:
                         color = Color.red;
                         break;
-                    case Player.ColorsEnum.Blue:
+                    case ColorPicker.ColorEnum.Blue:
                         color = Color.blue;
                         break;
-                    case Player.ColorsEnum.Yellow:
+                    case ColorPicker.ColorEnum.Yellow:
                         color = Color.yellow;
                         break;
                 }
