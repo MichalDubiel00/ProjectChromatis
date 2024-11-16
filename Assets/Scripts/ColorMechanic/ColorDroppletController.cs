@@ -57,8 +57,7 @@ public class ColorDroppletController : MonoBehaviour
         if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || platform != null))
             return;
 
-        if (platform != null)
-            platform.ChangePlatformProporties(currentColor);
+     
         if(collision.gameObject.CompareTag("Wall"))
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 90);
         else
@@ -68,6 +67,9 @@ public class ColorDroppletController : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+        PlatformController platform = collision.GetComponent<PlatformController>();
+        if (platform != null)
+            platform.ChangePlatformProporties(currentColor);
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
             StartCoroutine(SquezeEffect(collision));
