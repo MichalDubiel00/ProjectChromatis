@@ -10,10 +10,13 @@ public class GameInput : MonoBehaviour
     public static GameInput instance { get; private set; }
   
     PlayerInput input;
+
+    //Event Handlers
     public event EventHandler OnPauseAction;
     public event EventHandler OnDebugAction;
     public event EventHandler OnToggleAction;
-
+    public event EventHandler OnNextColorAction;
+    public event EventHandler OnPreviousColorAction;
 
 
 
@@ -26,7 +29,21 @@ public class GameInput : MonoBehaviour
         input.Player.Pause.performed += Pause_performed;
         input.Player.Debug.performed += Debug_performed;
         input.Player.Toggle.performed += Toggle_performed;
+        input.Player.NextColor.performed += NextColor_performed;
+        input.Player.PreviousColor.performed += PreviousColor_performed;
 
+
+    }
+
+    private void PreviousColor_performed(InputAction.CallbackContext obj)
+    {
+        OnPreviousColorAction?.Invoke(this, EventArgs.Empty);
+
+    }
+
+    private void NextColor_performed(InputAction.CallbackContext obj)
+    {
+        OnNextColorAction?.Invoke(this, EventArgs.Empty);
 
     }
 

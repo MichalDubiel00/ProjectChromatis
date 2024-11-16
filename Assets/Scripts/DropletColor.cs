@@ -9,13 +9,23 @@ public class DropletColor : MonoBehaviour
     private Color _color;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _SpriteRenderer = GetComponent<SpriteRenderer>();
+        if (_ColorPicker != null)
+            SetByPicker();
+      
+    }
+    public void SetColor(Color color)
+    {
+        _SpriteRenderer.color = color;
+    }
+    void SetByPicker()  
+    {
         if (_ColorPicker)
         {
-            switch (_ColorPicker.MyColor) 
-                {
+            switch (_ColorPicker.MyColor)
+            {
                 case ColorPicker.ColorEnum.Red:
                     _color = Color.red;
                     break;
@@ -23,11 +33,11 @@ public class DropletColor : MonoBehaviour
                     _color = Color.blue;
                     break;
                 case ColorPicker.ColorEnum.Yellow
-                : _color = Color.yellow;
+                :
+                    _color = Color.yellow;
                     break;
-                }
+            }
             _SpriteRenderer.color = _color;
         }
     }
- 
 }

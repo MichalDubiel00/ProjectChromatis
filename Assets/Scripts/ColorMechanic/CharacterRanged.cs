@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
+using Unity.VisualScripting;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 public class CharacterRanged : MonoBehaviour
 {
     [SerializeField] private GameObject colorDroplet;
     [SerializeField] private GameObject pivotPointThrow;
     [SerializeField] private float strength = 2.0f;
+    Player player;
+
+
     private Vector3 mousePosition;
     private Vector2 characterPosition;
     private PlayerMovement movementScript;
@@ -16,6 +22,7 @@ public class CharacterRanged : MonoBehaviour
     void Start()
     {        
         movementScript = gameObject.GetComponent<PlayerMovement>();
+        player = gameObject.GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -43,9 +50,37 @@ public class CharacterRanged : MonoBehaviour
 
     private void throwDroplet(Vector2 relativeMousePosition)
     {
-        var ball = Instantiate<GameObject>(colorDroplet, pivotPointThrow.transform.position, Quaternion.identity);
-        Rigidbody2D rb = ball.GetComponent<Rigidbody2D>();
-        var throwVelocity = relativeMousePosition *strength;
-        rb.AddForce(throwVelocity, ForceMode2D.Impulse);
+        string choosenColor = player.CurrentColor.ToString();
+        if (player.Colors[choosenColor] <= 0)
+            return;
+        else
+        {
+            player.Colors[choosenColor]--;
+            player.UpdateColorUI(choosenColor);
+            var ball = Instantiate<GameObject>(colorDroplet, pivotPointThrow.transform.position, Quaternion.identity);
+            Rigidbody2D rb = ball.GetComponent<Rigidbody2D>();
+            var throwVelocity = relativeMousePosition *strength;
+            rb.AddForce(throwVelocity, ForceMode2D.Impulse);
+
+            DropletColor dropletColor = ball.GetComponent<DropletColor>();
+            if (dropletColor != null) 
+            {
+                Color color = Color.white; // Default color in case of no match
+                switch (player.CurrentColor)
+                {
+                    case Player.ColorsEnum.Red:
+                        color = Color.red;
+                        break;
+                    case Player.ColorsEnum.Blue:
+                        color = Color.blue;
+                        break;
+                    case Player.ColorsEnum.Yellow:
+                        color = Color.yellow;
+                        break;
+                }
+                Debug.Log(player.CurrentColor.ToString());
+                dropletColor.SetColor(color);
+            }
+        }
     }
 }
