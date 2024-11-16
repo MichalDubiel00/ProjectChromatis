@@ -66,15 +66,21 @@ public class PlatformController : MonoBehaviour
                 }
                 break;
             case ColorPicker.ColorEnum.Red:
-                if (_SpriteRenderer.color != new Color(255, 0, 0))
-                    _SpriteRenderer.color = new Color(255, 0, 0);
-                moveOn = false;
+                if (canBeRed)
+                {
+                    if (_SpriteRenderer.color != new Color(255, 0, 0))
+                        _SpriteRenderer.color = new Color(255, 0, 0);
+                    moveOn = false;
+                }
 
                 break;
             case ColorPicker.ColorEnum.Yellow:
-                if (_SpriteRenderer.color != Color.yellow)
-                    _SpriteRenderer.color = Color.yellow;
-                moveOn = false;
+                if (canBeYellow)
+                {
+                    if (_SpriteRenderer.color != Color.yellow)
+                        _SpriteRenderer.color = Color.yellow;
+                    moveOn = false;
+                }
                 break;
         }
     }
