@@ -18,6 +18,7 @@ public class PlatformController : MonoBehaviour
     SpriteRenderer _SpriteRenderer;
     
     Collider2D _Collider;
+    PolygonCollider2D _PolygonCollider;
     PlatformEffector2D _Effector;
     [SerializeField] LayerMask playerLayer;
     int groundMask;
@@ -38,6 +39,7 @@ public class PlatformController : MonoBehaviour
 
         _SpriteRenderer = GetComponent<SpriteRenderer>();
         _Effector = GetComponent<PlatformEffector2D>();
+        _PolygonCollider = GetComponent<PolygonCollider2D>();
         _Collider = GetComponent<Collider2D>();
         _SpriteRenderer.color = Color.gray;
         targetPos = posB.position;
@@ -88,11 +90,18 @@ public class PlatformController : MonoBehaviour
             case ColorPicker.ColorEnum.Red:
                 if (canBeRed)
                 {
+                    gameObject.layer = 0;
                     if (_SpriteRenderer.color != new Color(1, 0, 0.3f))
                         _SpriteRenderer.color = new Color(1, 0, 0, 0.3f);
-                    _Effector.useColliderMask = false;
-                    gameObject.layer = 0;
-                    _Collider.excludeLayers = playerLayer;
+                    if (_Effector != null)
+                        _Effector.useColliderMask = false;
+                    if (_PolygonCollider != null)
+                    {
+                        Debug.Log("collider");
+                        _PolygonCollider.excludeLayers = playerLayer;
+                    }
+                    if (_Collider != null)
+                        _Collider.excludeLayers = playerLayer;
                     moveOn = false;
                 }
 
@@ -100,11 +109,15 @@ public class PlatformController : MonoBehaviour
             case ColorPicker.ColorEnum.Yellow:
                 if (canBeYellow)
                 {
+                    gameObject.layer = groundMask;
                     if (_SpriteRenderer.color != Color.yellow)
                         _SpriteRenderer.color = Color.yellow;
-                    _Effector.useColliderMask = true;
-                    gameObject.layer = groundMask;
-                    _Collider.includeLayers = playerLayer;
+                    if (_Effector != null)
+                        _Effector.useColliderMask = true;
+                    if (_Collider != null)
+                        _Collider.includeLayers = playerLayer;
+                    if (_PolygonCollider != null)
+                        _PolygonCollider.excludeLayers = playerLayer;
                     moveOn = false;
                 }
                 break;
