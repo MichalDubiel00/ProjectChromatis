@@ -38,14 +38,17 @@ public class PlatformController : MonoBehaviour
         switch (currentColor) 
         {
             case ColorPicker.ColorEnum.Blue:
-                _SpriteRenderer.color = new Color(0,0,255);
+                if (_SpriteRenderer.color != new Color(0, 0, 255))
+                     _SpriteRenderer.color = new Color(0,0,255);
                 MovePlatform();
                 break;
-            case ColorPicker.ColorEnum.Red: 
-                _SpriteRenderer.color = new Color(255,0,0);
+            case ColorPicker.ColorEnum.Red:
+                if (_SpriteRenderer.color != new Color(255, 0, 0))
+                    _SpriteRenderer.color = new Color(255,0,0);
                 break;
-            case ColorPicker.ColorEnum.Yellow: 
-                _SpriteRenderer.color = Color.yellow;
+            case ColorPicker.ColorEnum.Yellow:
+                if (_SpriteRenderer.color != Color.yellow)
+                    _SpriteRenderer.color = Color.yellow;
                 break; 
         }
 
