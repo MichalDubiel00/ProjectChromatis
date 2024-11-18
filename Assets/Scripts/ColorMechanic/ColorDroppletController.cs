@@ -7,6 +7,7 @@ public class ColorDroppletController : MonoBehaviour
 {
     public float stretchFactor = 0.1f;
     public float squashDuration = 0.1f;
+    [HideInInspector] public bool isThrown = false;
 
     private bool isSquashing = false;
     private Rigidbody2D rb;
@@ -54,6 +55,7 @@ public class ColorDroppletController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         PlatformController platform = collision.GetComponent<PlatformController>();
+       
         if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || platform != null))
             return;
 
@@ -62,18 +64,29 @@ public class ColorDroppletController : MonoBehaviour
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 90);
         else
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-        StartCoroutine(SquashEffect(collision));      
+        StartCoroutine(SquashEffect(collision));
+
+        if (platform == null && isThrown == true)
+        {
+            isThrown = false;
+            Collector.instance.spawnCollectible(transform.position,currentColor);
+        }
+        isThrown = false;
  
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
+       
         PlatformController platform = collision.GetComponent<PlatformController>();
+        if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || platform != null))
+            return;
         if (platform != null)
             platform.ChangePlatformProporties(currentColor);
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
             StartCoroutine(SquezeEffect(collision));
         }
+        isThrown = false;
     }
     private System.Collections.IEnumerator SquashEffect(Collider2D collision)
     {

@@ -64,6 +64,7 @@ public class CharacterRanged : MonoBehaviour
 			DropletColor dropletColor = ball.GetComponent<DropletColor>();
             ColorDroppletController colorDroppletController = ball.GetComponent<ColorDroppletController>();
             colorDroppletController.currentColor = choosenColor;
+            colorDroppletController.isThrown = true;
             if (dropletColor != null) 
             {
                 Color color = Color.white; // Default color in case of no match

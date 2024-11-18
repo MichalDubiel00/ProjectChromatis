@@ -6,12 +6,18 @@ using UnityEngine;
 
 public class Collector : MonoBehaviour
 {
+    public static Collector instance { get; set; }
+
     [SerializeField] Player player;
     [SerializeField] GameObject colorDropletPrefab; // Prefab of the color droplet
     [SerializeField] Camera mainCamera; // The main camera in the scene
 	SoundManager audioManager;
 	private void Awake()
 	{
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(instance);
 		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();
 	}
 	private void OnTriggerEnter2D(Collider2D collision)
@@ -31,13 +37,16 @@ public class Collector : MonoBehaviour
         player.Colors[color] = Mathf.Min(player.Colors[color] + amount, player.MaxCapacity);
         player.ChangeColor(color);
         player.UpdateColorUI(color);
-        spawnCollectible();
+        //spawnCollectible();
 
 
     }
-    void spawnCollectible()
+    public void spawnCollectible(Vector2? position = null,ColorPicker.ColorEnum color  = ColorPicker.ColorEnum.Gray)
     {
+        Vector3 spawnPosition;
         // Get the camera's viewport boundaries in world space
+        if (position == null) 
+        { 
         float cameraWidth = mainCamera.orthographicSize * mainCamera.aspect; // Horizontal size in world space
         float cameraHeight = mainCamera.orthographicSize; // Vertical size in world space
 
@@ -46,7 +55,12 @@ public class Collector : MonoBehaviour
         float spawnY = Random.Range(-cameraHeight, cameraHeight);
 
         // Create a position vector for the spawn location
-        Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0f);
+        spawnPosition = new Vector3(spawnX, spawnY,0);
+        }
+        else 
+        {
+            spawnPosition = new Vector3(position.Value.x,position.Value.y,0);
+        }
 
         // Instantiate the color droplet prefab at the random position
         // Instantiate the color droplet prefab at the random position
@@ -58,23 +72,28 @@ public class Collector : MonoBehaviour
 
         if (dropletColor != null && colorPicker != null)
         {
-            Color randomColor = Color.white;
-            switch (GetRandomColor())
+            Color dColor = Color.white;
+            int c;
+            if (color == ColorPicker.ColorEnum.Gray)
+                c = GetRandomColor();
+            else
+                c = (int)color;
+            switch (c)
             {
                 case 0:
                     colorPicker.MyColor = ColorPicker.ColorEnum.Red;
-                    randomColor = Color.red;
+                    dColor = Color.red;
                     break;
                 case 1:
                     colorPicker.MyColor = ColorPicker.ColorEnum.Blue;
-                    randomColor = Color.blue;
+                    dColor = Color.blue;
                     break;
                 case 2:
                     colorPicker.MyColor = ColorPicker.ColorEnum.Yellow;
-                    randomColor = Color.yellow;
+                    dColor = Color.yellow;
                     break;
             }
-            dropletColor.SetColor(randomColor);
+            dropletColor.SetColor(dColor);
         }
 
     }
