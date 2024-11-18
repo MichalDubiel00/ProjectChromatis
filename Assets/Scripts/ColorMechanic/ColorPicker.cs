@@ -8,7 +8,8 @@ public class ColorPicker : MonoBehaviour
     {
         Red,
         Blue,
-        Yellow
+        Yellow,
+        Gray
     }
     [SerializeField] private ColorEnum _mycolor;
     [SerializeField] private int amount = 1;

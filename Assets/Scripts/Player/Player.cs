@@ -14,17 +14,13 @@ public class Player : MonoBehaviour
     public SimplePlayerMovment simpleMovment;
 
     //Collected Colors capacity
-    public enum ColorsEnum
-    {
-        Red, Blue, Yellow
-    }
-    int colorCount = Enum.GetValues(typeof(ColorsEnum)).Length;
+    int colorCount = Enum.GetValues(typeof(ColorPicker.ColorEnum)).Length-1;
 
-    public Dictionary<string, int> Colors = new Dictionary<string, int>();
+    public Dictionary<ColorPicker.ColorEnum, int> Colors = new Dictionary<ColorPicker.ColorEnum, int>();
     public ColorBar colorBar;
 
-    ColorsEnum _currentColor;
-    public ColorsEnum CurrentColor { get => _currentColor; }
+    ColorPicker.ColorEnum _currentColor;
+    public ColorPicker.ColorEnum CurrentColor { get => _currentColor; }
 
     [SerializeField] private int _maxCapacity = 10;
     public int MaxCapacity { get => _maxCapacity; }
@@ -50,9 +46,9 @@ public class Player : MonoBehaviour
     private void GameInput_OnPreviousColorAction(object sender, System.EventArgs e)
     {
         //bit to much but works
-        _currentColor = (ColorsEnum)(((int)_currentColor - 1 + colorCount) % colorCount);
-        ChangeColor(_currentColor.ToString());
-        UpdateColorUI(_currentColor.ToString());
+        _currentColor = (ColorPicker.ColorEnum)(((int)_currentColor - 1 + colorCount) % colorCount);
+        ChangeColor(_currentColor);
+        UpdateColorUI(_currentColor);
 
 		audioManager.PlaySFX(audioManager.switchColor);
 		Debug.Log(_currentColor.ToString());
@@ -60,9 +56,9 @@ public class Player : MonoBehaviour
 
     private void GameInput_OnNextColorAction(object sender, System.EventArgs e)
     {
-        _currentColor = (ColorsEnum)(((int)_currentColor + 1) % colorCount);
-        ChangeColor(_currentColor.ToString());
-        UpdateColorUI(_currentColor.ToString());
+        _currentColor = (ColorPicker.ColorEnum)(((int)_currentColor + 1) % colorCount);
+        ChangeColor(_currentColor);
+        UpdateColorUI(_currentColor);
 
 		audioManager.PlaySFX(audioManager.switchColor);
 		Debug.Log(_currentColor.ToString());
@@ -102,22 +98,21 @@ public class Player : MonoBehaviour
 
     void Init()
     {
-        Colors.Add("Red", 0);
-        Colors.Add("Blue", 0);
-        Colors.Add("Yellow", 0);
+        Colors.Add(ColorPicker.ColorEnum.Red, 0);
+        Colors.Add(ColorPicker.ColorEnum.Blue, 0);
+        Colors.Add(ColorPicker.ColorEnum.Yellow, 0);
 
         
         colorBar.SetMaxColorCapacity(MaxCapacity);
     }
     
-    public void UpdateColorUI(string color)
+    public void UpdateColorUI(ColorPicker.ColorEnum color)
     {
         colorBar.UpdateAmount(Colors[color]);
-        Enum.TryParse(color, out _currentColor);
-        
+        _currentColor = color;        
     }
 
-    public void ChangeColor(string choosenColor)
+    public void ChangeColor(ColorPicker.ColorEnum choosenColor)
     {
 
       
