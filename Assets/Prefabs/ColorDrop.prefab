@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7524121201824640525}
   - component: {fileID: 1025402351921103614}
   - component: {fileID: -2458578412534898306}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ColorDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
