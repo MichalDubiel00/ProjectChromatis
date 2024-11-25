@@ -131,4 +131,34 @@ public class PlatformController : MonoBehaviour
                 break;
         }
     }
+    //Logic for moving player with the platform
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+       
+        if (!moveOn) return;
+        PlayerMovement player = collision.collider.GetComponent<PlayerMovement>();
+        if (player != null && player.LastOnGroundTime > 0 && !player.IsJumping)
+            collision.collider.transform.SetParent(transform);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!moveOn) return;
+        PlayerMovement player = collision.collider.GetComponent<PlayerMovement>();
+
+
+        if (player != null && player.LastOnGroundTime > 0 && !player.IsJumping)
+            collision.collider.transform.SetParent(transform);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (!moveOn) return;
+        Player player = collision.gameObject.GetComponent<Player>();
+        if (player == null)
+            return;
+        collision.collider.transform.SetParent(null);
+    }
+
 }

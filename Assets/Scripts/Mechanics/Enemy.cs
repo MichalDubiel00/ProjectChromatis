@@ -56,7 +56,10 @@ public class Enemy : MonoBehaviour
         if (distanceToPlayer <= detectionRange)
         {
             _detected = true;
-            shootingBuffer -= Time.deltaTime;
+            if (shootingBuffer>=0)
+            {
+                shootingBuffer -= Time.deltaTime;
+            }
         }
         else
         {
