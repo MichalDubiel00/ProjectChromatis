@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
-    public Transform posA, posB;
+    [SerializeField] Transform posA, posB;
+    Vector2 targetPos;
+
     [SerializeField] float platformSpeed = 1f;
     bool moveOn = false;
 
@@ -32,7 +34,6 @@ public class PlatformController : MonoBehaviour
         set => currentColor = value;
     }
 
-    Vector2 targetPos;
     // Start is called before the first frame update
     void Start()
     {

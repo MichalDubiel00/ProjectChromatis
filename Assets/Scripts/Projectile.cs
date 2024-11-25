@@ -21,13 +21,13 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Hit");
+        //Debug.Log("Hit");
 
         Player player = collision.GetComponent<Player>();
         PlatformController platform = collision.GetComponent<PlatformController>();
         if (player != null)
         {
-            Debug.Log("Hit");
+            Debug.Log("Player Hit");
             PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
