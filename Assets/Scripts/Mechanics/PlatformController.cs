@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
-    public Transform posA, posB;
+    [SerializeField] Transform posA, posB;
+    Vector2 targetPos;
+
     [SerializeField] float platformSpeed = 1f;
     bool moveOn = false;
 
@@ -22,6 +24,7 @@ public class PlatformController : MonoBehaviour
     PlatformEffector2D _Effector;
     [SerializeField] LayerMask playerLayer;
     int groundMask;
+    int ghostMask;
 
 
 
@@ -31,11 +34,12 @@ public class PlatformController : MonoBehaviour
         set => currentColor = value;
     }
 
-    Vector2 targetPos;
     // Start is called before the first frame update
     void Start()
     {
         groundMask = LayerMask.NameToLayer("Ground");
+        ghostMask = LayerMask.NameToLayer("Ghost");
+
 
         _SpriteRenderer = GetComponent<SpriteRenderer>();
         _Effector = GetComponent<PlatformEffector2D>();
@@ -79,6 +83,7 @@ public class PlatformController : MonoBehaviour
                 if (canBeBlue)
                 {
                     Debug.Log("Hello");
+                    if (prevColor == ColorPicker.ColorEnum.Yellow || prevColor == ColorPicker.ColorEnum.Gray)
                         _SpriteRenderer.color = new Color(0, 0, 1);
                     if (prevColor == ColorPicker.ColorEnum.Red)
                     {
@@ -90,7 +95,7 @@ public class PlatformController : MonoBehaviour
             case ColorPicker.ColorEnum.Red:
                 if (canBeRed)
                 {
-                    gameObject.layer = 0;
+                    gameObject.layer = ghostMask;
                     if (_SpriteRenderer.color != new Color(1, 0, 0.3f))
                         _SpriteRenderer.color = new Color(1, 0, 0, 0.3f);
                     if (_Effector != null)
