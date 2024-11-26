@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] GameInput gameInput;
     public PlayerData Data;
 
     //state Parameters
@@ -24,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isJumpCut;
     private bool _isJumpFalling;
+    private bool _hasLanded;
+
 
     private float _wallJumpStartTime;
     private int _lastWallJumpDir;
@@ -37,8 +38,10 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public AudioSource stepAudio;
 	public AudioSource stepAudio2;
-	public bool piv;
+	public bool piv;//why is it public?
 	SoundManager audioManager;
+
+    int debug = 0;
     
     [Header("Checks")]
     [SerializeField] private Transform _groundCheckPoint;
@@ -48,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform _frontWallCheckPoint;
     [SerializeField] private Transform _backWallCheckPoint;
     [SerializeField] private Vector2 _wallCheckSize = new Vector2(0.5f, 1f);
+
 
     [Header("Layers & Tags")]
     [SerializeField] private LayerMask _groundLayer;
@@ -81,11 +85,16 @@ public class PlayerMovement : MonoBehaviour
 
         LastPressedJumpTime -= Time.deltaTime;
 
-        _moveInput = gameInput.GetMovmentInput();
+        if (GameInput.instance == null)
+        {
+            Debug.LogError("GameInput instance is not initialized.");
+            return;
+        }
+        _moveInput = GameInput.instance.GetMovmentInput();
 
-        if (gameInput.GetJump())
+        if (GameInput.instance.GetJump())
             OnJumpInput();
-        if (gameInput.GetUpJump())
+        if (GameInput.instance.GetUpJump())
             OnJumpUpInput();
 
 
@@ -98,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
             {
-                if (LastOnGroundTime < -0.1f)
+                if (LastOnGroundTime < -0.1f && !_hasLanded)
                 {
 
                     //TODO:
@@ -109,8 +118,13 @@ public class PlayerMovement : MonoBehaviour
                     {
                         landingDust.Play();
                         audioManager.PlaySFX(audioManager.JumpLand);
+                        Debug.Log($"played sound = {debug++}");
                     }
+
+                    _hasLanded = true;
                 }
+                else
+                    _hasLanded = false;
 
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
             }
@@ -311,9 +325,10 @@ public class PlayerMovement : MonoBehaviour
 		*/
         
         // Animation Parameters ~ Nam
-            animator.SetFloat("speed", Math.Abs(movement));
         // Step Sound
-        if(Math.Abs(movement) >= 0.1){
+        if(Math.Abs(movement) >= 0.1 && _moveInput.x != 0){
+            animator.SetFloat("speed", Math.Abs(movement));
+            //what does piv mean?
             if (piv == false)
             {
                 if (!stepAudio.isPlaying && !stepAudio2.isPlaying)

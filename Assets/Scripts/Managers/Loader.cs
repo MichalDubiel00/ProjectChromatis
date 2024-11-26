@@ -15,7 +15,8 @@ public static class Loader
         PlayerHealthScene,
         CollectingScene,
         DoorScene,
-        MichalPlayRoomScene
+        MichalPlayRoomScene, 
+        MichalWorkingOnplatformsScene
     }
 
     private static Scene targetScene;
