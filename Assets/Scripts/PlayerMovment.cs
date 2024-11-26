@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Last edited: Nam, 26.11.24
+
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] GameInput gameInput;
@@ -11,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     //state Parameters
     public Rigidbody2D RB { get; private set; }
+    public Animator animator; //nam
     public bool IsFacingRight { get; private set; }
     public bool IsJumping { get; private set; }
     public bool IsWallJumping {   get; private set;}
@@ -35,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
 
     public ParticleSystem dust;
     public ParticleSystem landingDust;
-    public Animator animator;
     public AudioSource stepAudio;
 	public AudioSource stepAudio2;
 	public bool piv;
@@ -89,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             OnJumpInput();
         if (gameInput.GetUpJump())
             OnJumpUpInput();
-
+        animator.SetFloat("yVelocity", RB.velocity.y);
 
 
         if (_moveInput.x != 0)
@@ -100,7 +102,8 @@ public class PlayerMovement : MonoBehaviour
             //Ground Check
             if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
             {
-                if (LastOnGroundTime < -0.1f)
+				animator.SetBool("isGrounded", true);
+				if (LastOnGroundTime < -0.1f)
                 {
 
                     //TODO:
@@ -112,13 +115,14 @@ public class PlayerMovement : MonoBehaviour
                         landingDust.Play();
                         audioManager.PlaySFX(audioManager.JumpLand);
                     }
-                }
+					
+				}
+				
+				LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+            }else animator.SetBool("isGrounded", false);
 
-                LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
-            }
-
-            //Right Wall Check
-            if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
+			//Right Wall Check
+			if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
                     || (Physics2D.OverlapBox(_backWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && !IsFacingRight)) && !IsWallJumping)
                 LastOnWallRightTime = Data.coyoteTime;
 
@@ -130,14 +134,16 @@ public class PlayerMovement : MonoBehaviour
             //Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
             LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
         }
-        #endregion
+		#endregion
 
-        #region JUMP CHECKS
-        if (IsJumping && RB.velocity.y < 0)
+		#region JUMP CHECKS
+		
+		if (IsJumping && RB.velocity.y < 0)
         {
             IsJumping = false;
+            animator.SetBool("isJumping", IsJumping);
 
-            _isJumpFalling = true;
+			_isJumpFalling = true;
         }
 
         if (IsWallJumping && Time.time - _wallJumpStartTime > Data.wallJumpTime)
@@ -155,19 +161,21 @@ public class PlayerMovement : MonoBehaviour
         if (CanJump() && LastPressedJumpTime > 0)
         {
             IsJumping = true;
-            IsWallJumping = false;
+            animator.SetBool("isJumping", IsJumping);
+			IsWallJumping = false;
             _isJumpCut = false;
             _isJumpFalling = false;
             Jump();
-
+                
             //AnimHandler.startedJumping = true;
         }
         //WALL JUMP
         else if (CanWallJump() && LastPressedJumpTime > 0)
-        {
-            IsWallJumping = true;
+        {   
+            IsWallJumping = true;   
             IsJumping = false;
-            _isJumpCut = false;
+			animator.SetBool("isJumping", IsJumping);
+			_isJumpCut = false;
             _isJumpFalling = false;
 
             _wallJumpStartTime = Time.time;
