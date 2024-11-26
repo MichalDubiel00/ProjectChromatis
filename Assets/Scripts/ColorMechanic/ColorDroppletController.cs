@@ -15,6 +15,8 @@ public class ColorDroppletController : MonoBehaviour
     private Animator animator;
     private String currentAnimation = "";
     [HideInInspector] public ColorPicker.ColorEnum currentColor;
+
+    [SerializeField] Collectible collectible;
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +71,7 @@ public class ColorDroppletController : MonoBehaviour
         if (platform == null && isThrown == true)
         {
             isThrown = false;
-            Collector.instance.spawnCollectible(transform.position,currentColor);
+            collectible.spawnCollectible(transform.position,currentColor);
         }
         isThrown = false;
  

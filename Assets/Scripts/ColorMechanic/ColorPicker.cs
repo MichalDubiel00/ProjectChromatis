@@ -12,10 +12,6 @@ public class ColorPicker : MonoBehaviour
         Gray
     }
     [SerializeField] private ColorEnum _mycolor;
-    [SerializeField] private int amount = 1;
-
-    public int Amount 
-    { get => amount; }
 
     public ColorEnum MyColor
     { get => _mycolor;

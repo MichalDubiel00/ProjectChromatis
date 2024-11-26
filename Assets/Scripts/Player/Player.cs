@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    [HideInInspector] public int notes;//notes change to HashTable
     [SerializeField] PlayerHealth health;
     SoundManager audioManager;
 	//Temp for Playroom presentation

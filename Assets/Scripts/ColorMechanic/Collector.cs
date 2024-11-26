@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
+//Can be Removed
 public class Collector : MonoBehaviour
 {
     public static Collector instance { get; set; }
@@ -25,7 +26,7 @@ public class Collector : MonoBehaviour
         ColorPicker picker = collision.GetComponent<ColorPicker>();
         if (picker != null)
         {
-            CollectColor(collision.gameObject, picker.Amount, picker.MyColor);
+            CollectColor(collision.gameObject,1, picker.MyColor);
 			audioManager.PlaySFX(audioManager.collectDrop);
 		}
     }

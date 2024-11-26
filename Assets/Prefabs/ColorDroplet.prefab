@@ -222,6 +222,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stretchFactor: 0.1
   squashDuration: 0.4
+  isThrown: 0
+  currentColor: 0
+  collectible: {fileID: 9058117784119704118, guid: d443b9551b1f4334b8ef72e4abe962ea, type: 3}
 --- !u!114 &-2440233960704361703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,5 +237,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 403e568308fc9a143a982e3716ce016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Player: {fileID: 767811880947128842, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
   _ColorPicker: {fileID: 0}
