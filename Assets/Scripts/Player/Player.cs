@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
     public Dictionary<ColorPicker.ColorEnum, int> Colors = new Dictionary<ColorPicker.ColorEnum, int>();
     public ColorBar colorBar;
+    public SelectedColor selectedColor;
 
     ColorPicker.ColorEnum _currentColor;
     public ColorPicker.ColorEnum CurrentColor { get => _currentColor; }
@@ -114,8 +115,7 @@ public class Player : MonoBehaviour
 
     public void ChangeColor(ColorPicker.ColorEnum choosenColor)
     {
-
-      
+        selectedColor.UpdateSelected(choosenColor);
         colorBar.SetColorGradient(choosenColor);
     }
 }
