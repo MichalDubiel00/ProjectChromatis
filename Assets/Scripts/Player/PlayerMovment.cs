@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public PlayerData Data;
-
+    	
     //state Parameters
     public Rigidbody2D RB { get; private set; }
     public bool IsFacingRight { get; private set; }
@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         LastOnWallLeftTime -= Time.deltaTime;
 
         LastPressedJumpTime -= Time.deltaTime;
-
+        animator.SetFloat("yVelocity",RB.velocity.y);
         if (GameInput.instance == null)
         {
             Debug.LogError("GameInput instance is not initialized.");
@@ -112,7 +112,8 @@ public class PlayerMovement : MonoBehaviour
 
                     //TODO:
                     //AnimHandler.justLanded = true;
-
+                    animator.SetBool("isJumping", false);
+                    animator.SetBool("isGrounded", true);
                     // Landing Dust abspielen, wenn der Spieler landet
                     if (landingDust != null)
                     {
@@ -173,6 +174,8 @@ public class PlayerMovement : MonoBehaviour
             Jump();
 
             //AnimHandler.startedJumping = true;
+            animator.SetBool("isJumping", IsJumping);
+            animator.SetBool("isGrounded", !IsJumping);
         }
         //WALL JUMP
         else if (CanWallJump() && LastPressedJumpTime > 0)
@@ -330,25 +333,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (Math.Abs(movement) >= 0.1 && _moveInput.x != 0){
             //what does piv mean?
-            if (piv == false)
-            {
-                if (!stepAudio.isPlaying && !stepAudio2.isPlaying)
-                {
+            if (piv == false){
+                if (!stepAudio.isPlaying && !stepAudio2.isPlaying){
                     stepAudio.Play();
 					piv = true;
 				}
                 if (IsJumping || IsWallJumping || _isJumpFalling || IsSliding) stepAudio.Stop();
-                
             }
-            else
-            {
-				if (!stepAudio2.isPlaying && !stepAudio.isPlaying) 
-                {
+            else{
+				if (!stepAudio2.isPlaying && !stepAudio.isPlaying) {
 					stepAudio2.Play();
 					piv = false;
 				}
 				if (IsJumping || IsWallJumping || _isJumpFalling || IsSliding) stepAudio2.Stop();
-				
 			}
         }
     
