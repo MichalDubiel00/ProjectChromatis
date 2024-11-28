@@ -7548,6 +7548,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   posA: {fileID: 1108602505}
   posB: {fileID: 94998196}
+  platformSpeed: 1
+  canBeBlue: 1
+  canBeRed: 1
+  canBeYellow: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &815633340690036442
 PrefabInstance:
   m_ObjectHideFlags: 0
