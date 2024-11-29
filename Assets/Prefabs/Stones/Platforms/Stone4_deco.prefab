@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 821924650425628165}
   - component: {fileID: 8898002482117150899}
   m_Layer: 3
-  m_Name: Stone4_Platform
+  m_Name: Stone4_deco
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
