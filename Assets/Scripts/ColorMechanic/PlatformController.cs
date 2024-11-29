@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 public class PlatformController : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class PlatformController : MonoBehaviour
     [SerializeField] bool canBeBlue = true, canBeRed = true, canBeYellow = true;
 
     
-    ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
+    [SerializeField] ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
     GameObject parent;
     
     SpriteRenderer _SpriteRenderer;
@@ -48,6 +50,7 @@ public class PlatformController : MonoBehaviour
         _SpriteRenderer.color = Color.gray;
         targetPos = posB.position;
 
+        ChangePlatformProporties(currentColor);
     }
     
 

@@ -16,7 +16,8 @@ public static class Loader
         CollectingScene,
         DoorScene,
         MichalPlayRoomScene, 
-        MichalWorkingOnplatformsScene
+        MichalWorkingOnplatformsScene,
+        LevelOneNam
     }
 
     private static Scene targetScene;
