@@ -1,0 +1,578 @@
+fileFormatVersion: 2
+guid: eabd151279f4fd9458a824a1f7a04886
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_0
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 1760
+        width: 152
+        height: 303
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e7e99fc6f644334eb1694102846d0ac
+      internalID: 756086262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_1
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 1758
+        width: 169
+        height: 294
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 181790eb06ff35f44ac18cf2e7eb4825
+      internalID: 1144363319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_2
+      rect:
+        serializedVersion: 2
+        x: 803
+        y: 1812
+        width: 255
+        height: 190
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec220d0d40c625049b7d77b4b2341b81
+      internalID: 980587388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_3
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 1745
+        width: 280
+        height: 303
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25e252aa162a7184e8d4776a828cf83c
+      internalID: 462355813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_4
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 1780
+        width: 262
+        height: 220
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 311a5fc436da1934497db341755a1d1c
+      internalID: 1600630023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_5
+      rect:
+        serializedVersion: 2
+        x: 2161
+        y: 1762
+        width: 296
+        height: 262
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b23453d16977fff45a32da3abb6a72bb
+      internalID: 1565484155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_6
+      rect:
+        serializedVersion: 2
+        x: 2658
+        y: 1715
+        width: 326
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9197047b9905109459ae8948818c15b6
+      internalID: 866974589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_7
+      rect:
+        serializedVersion: 2
+        x: 3149
+        y: 1662
+        width: 628
+        height: 418
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4691f0a93b89dee4682c34ca801574ad
+      internalID: -1101305647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_8
+      rect:
+        serializedVersion: 2
+        x: 2581
+        y: 1705
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5010adb03471efb4eb214507395fb088
+      internalID: -212515769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_26
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 1435
+        width: 37
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 395e3fa1300619d419273c33c4d8dcd5
+      internalID: 707578557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_27
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 1433
+        width: 98
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dcda2fcb716d624e92e2718db6b1efd
+      internalID: 1394199015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_28
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 1349
+        width: 219
+        height: 216
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7049870f6b61f93459c7ddd56d1b3eb0
+      internalID: -2142282950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_29
+      rect:
+        serializedVersion: 2
+        x: 1257
+        y: 1385
+        width: 285
+        height: 180
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8eee21281c660241aeda0ca3f8a913b
+      internalID: -1420521259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_42
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 233
+        width: 259
+        height: 869
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec9a354c1566ff342a5a0f8815ac89b5
+      internalID: -1042014764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_43
+      rect:
+        serializedVersion: 2
+        x: 779
+        y: 181
+        width: 242
+        height: 954
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 962b0b3ab8c2a2742a21180bddb6e11d
+      internalID: 116337097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_44
+      rect:
+        serializedVersion: 2
+        x: 1636
+        y: 277
+        width: 399
+        height: 305
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57b48d2eba53a1b4ca8b7f923ed9abf7
+      internalID: 1993976901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_45
+      rect:
+        serializedVersion: 2
+        x: 2375
+        y: 275
+        width: 397
+        height: 437
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bacb8b2263dec1c489108997208869b2
+      internalID: -924136645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_46
+      rect:
+        serializedVersion: 2
+        x: 3068
+        y: 263
+        width: 400
+        height: 679
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2eea8d787ff0911448cc703067696b4a
+      internalID: 2143207615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tiles8stone-pillar-spikes_9
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 1416
+        width: 15
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c971f695b97ff3d448b8d96784236221
+      internalID: 1957519627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      tiles8stone-pillar-spikes_0: 756086262
+      tiles8stone-pillar-spikes_1: 1144363319
+      tiles8stone-pillar-spikes_10: -2063078559
+      tiles8stone-pillar-spikes_11: 1886364541
+      tiles8stone-pillar-spikes_12: 1424766929
+      tiles8stone-pillar-spikes_13: -1156189965
+      tiles8stone-pillar-spikes_14: 1863081940
+      tiles8stone-pillar-spikes_15: -1102531559
+      tiles8stone-pillar-spikes_16: -1967404309
+      tiles8stone-pillar-spikes_17: 172749837
+      tiles8stone-pillar-spikes_18: -1262350473
+      tiles8stone-pillar-spikes_19: 1889719559
+      tiles8stone-pillar-spikes_2: 980587388
+      tiles8stone-pillar-spikes_20: 1731639896
+      tiles8stone-pillar-spikes_21: 1169513357
+      tiles8stone-pillar-spikes_22: -1000627766
+      tiles8stone-pillar-spikes_23: 50569227
+      tiles8stone-pillar-spikes_24: -2132510365
+      tiles8stone-pillar-spikes_25: -1850475219
+      tiles8stone-pillar-spikes_26: 707578557
+      tiles8stone-pillar-spikes_27: 1394199015
+      tiles8stone-pillar-spikes_28: -2142282950
+      tiles8stone-pillar-spikes_29: -1420521259
+      tiles8stone-pillar-spikes_3: 462355813
+      tiles8stone-pillar-spikes_30: 680622232
+      tiles8stone-pillar-spikes_31: -270487721
+      tiles8stone-pillar-spikes_32: 377281414
+      tiles8stone-pillar-spikes_33: 485783724
+      tiles8stone-pillar-spikes_34: -1165943329
+      tiles8stone-pillar-spikes_35: 379333651
+      tiles8stone-pillar-spikes_36: -938667698
+      tiles8stone-pillar-spikes_37: 768939480
+      tiles8stone-pillar-spikes_38: 756780603
+      tiles8stone-pillar-spikes_39: -25367075
+      tiles8stone-pillar-spikes_4: 1600630023
+      tiles8stone-pillar-spikes_40: 1928901752
+      tiles8stone-pillar-spikes_41: -284189640
+      tiles8stone-pillar-spikes_42: -1042014764
+      tiles8stone-pillar-spikes_43: 116337097
+      tiles8stone-pillar-spikes_44: 1993976901
+      tiles8stone-pillar-spikes_45: -924136645
+      tiles8stone-pillar-spikes_46: 2143207615
+      tiles8stone-pillar-spikes_47: 1187228683
+      tiles8stone-pillar-spikes_48: -717524306
+      tiles8stone-pillar-spikes_49: 862812583
+      tiles8stone-pillar-spikes_5: 1565484155
+      tiles8stone-pillar-spikes_50: 1266276845
+      tiles8stone-pillar-spikes_51: 1972049725
+      tiles8stone-pillar-spikes_6: 866974589
+      tiles8stone-pillar-spikes_7: -1101305647
+      tiles8stone-pillar-spikes_8: -212515769
+      tiles8stone-pillar-spikes_9: 1957519627
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
