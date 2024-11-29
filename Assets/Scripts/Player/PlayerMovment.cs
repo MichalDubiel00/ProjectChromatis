@@ -321,14 +321,29 @@ public class PlayerMovement : MonoBehaviour
 
         float movement = speedDif * accelRate;
 
-        //Convert this to a vector and apply to rigidbody
-        if (isOnPlatform) 
-        { 
-            RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
-            RB.velocity += platformRB.velocity;
+        if (isOnPlatform && platformRB != null)
+        {
+            Vector2 platformVelocity = platformRB.velocity;
+
+            if (_moveInput.x == 0)
+            {
+                // No player input: Sync velocity with the platform
+                RB.velocity = platformVelocity;
+            }
+            else
+            {
+                // Player input: Combine target speed with platform velocity
+                RB.velocity = new Vector2(Mathf.Clamp(targetSpeed + platformVelocity.x, -Data.runMaxSpeed, Data.runMaxSpeed), RB.velocity.y);
+
+                // Add player movement force for smooth acceleration/deceleration
+                RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+            }
         }
         else
+        {
+            // Apply movement normally when not on a platform
             RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        }
 
 
 
@@ -340,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Animation Parameters ~ Nam
         // Step Sound
-        animator.SetFloat("speed", Math.Abs(movement));
+        animator.SetFloat("speed", Math.Abs(_moveInput.x));
 
         if (Math.Abs(movement) >= 0.1 && _moveInput.x != 0){
             //what does piv mean?
