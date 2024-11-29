@@ -55,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Layers & Tags")]
     [SerializeField] private LayerMask _groundLayer;
 
+    //Moving Platform
+    public bool isOnPlatform;
+    public Rigidbody2D platformRB;
+
+
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -317,7 +322,15 @@ public class PlayerMovement : MonoBehaviour
         float movement = speedDif * accelRate;
 
         //Convert this to a vector and apply to rigidbody
-        RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        if (isOnPlatform) 
+        { 
+            RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+            RB.velocity += platformRB.velocity;
+        }
+        else
+            RB.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+
 
         /*
 		 * For those interested here is what AddForce() will do

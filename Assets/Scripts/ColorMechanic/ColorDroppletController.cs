@@ -56,9 +56,9 @@ public class ColorDroppletController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        PlatformController platform = collision.GetComponent<PlatformController>();
+        ObjectColoring obj = collision.GetComponent<ObjectColoring>();
        
-        if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || platform != null))
+        if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || obj != null))
             return;
 
      
@@ -68,7 +68,7 @@ public class ColorDroppletController : MonoBehaviour
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         StartCoroutine(SquashEffect(collision));
 
-        if (platform == null && isThrown == true)
+        if (obj == null && isThrown == true)
         {
             isThrown = false;
             collectible.spawnCollectible(transform.position,currentColor);
@@ -79,11 +79,11 @@ public class ColorDroppletController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
        
-        PlatformController platform = collision.GetComponent<PlatformController>();
-        if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || platform != null))
+        ObjectColoring obj = collision.GetComponent<ObjectColoring>();
+        if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || obj != null))
             return;
-        if (platform != null)
-            platform.ChangePlatformProporties(currentColor);
+        if (obj != null)
+            obj.ChangePlatformProporties(currentColor);
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
             StartCoroutine(SquezeEffect(collision));

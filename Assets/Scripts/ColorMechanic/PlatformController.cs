@@ -1,167 +1,120 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
-using Color = UnityEngine.Color;
 
 public class PlatformController : MonoBehaviour
 {
-    [SerializeField] Transform posA, posB;
-    Vector2 targetPos;
+    [SerializeField] Vector3[] localWaypoints;
+    Vector3[] globalWaypoints;
+    int globalWaypointsIndex = 0;
+    int pointIndex = 1;
+    int direction = 1;
+    Vector3 moveDirection;
+    Vector3 targetPos;
 
     [SerializeField] float platformSpeed = 1f;
-    bool moveOn = false;
+    public bool moveOn = false;
 
-    [SerializeField] bool canBeBlue = true, canBeRed = true, canBeYellow = true;
+    Rigidbody2D rb;
 
-    
-    [SerializeField] ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
-    GameObject parent;
-    
-    SpriteRenderer _SpriteRenderer;
-    
-    Collider2D _Collider;
-    PolygonCollider2D _PolygonCollider;
-    PlatformEffector2D _Effector;
-    [SerializeField] LayerMask playerLayer;
-    int groundMask;
-    int ghostMask;
-
-
-
-    public ColorPicker.ColorEnum CurrentColor
-    {
-        get => currentColor;
-        set => currentColor = value;
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        groundMask = LayerMask.NameToLayer("Ground");
-        ghostMask = LayerMask.NameToLayer("Ghost");
+        rb = GetComponent<Rigidbody2D>();
 
-
-        _SpriteRenderer = GetComponent<SpriteRenderer>();
-        _Effector = GetComponent<PlatformEffector2D>();
-        _PolygonCollider = GetComponent<PolygonCollider2D>();
-        _Collider = GetComponent<Collider2D>();
-        _SpriteRenderer.color = Color.gray;
-        targetPos = posB.position;
-
-        ChangePlatformProporties(currentColor);
+        // Initialize global waypoints
+        globalWaypoints = new Vector3[localWaypoints.Length];
+        for (int i = 0; i < localWaypoints.Length; i++)
+        {
+            globalWaypoints[i] = localWaypoints[i] + transform.position;
+        }
+        targetPos = globalWaypoints[1];
+        globalWaypointsIndex = globalWaypoints.Length - 1;
+        CalculateDirection();
     }
-    
 
-    // Update is called once per frame
     void Update()
     {
         if (moveOn)
-            MovePlatform();
-
-    }
-
-    void MovePlatform()
-    {
-        if (posA != null || posB != null) 
         {
-            if (Vector2.Distance(transform.position, posA.position) <= .1f)
-                targetPos = posB.position;
-            if (Vector2.Distance(transform.position, posB.position) <= .1f)
-                targetPos = posA.position;
+            // Check if close enough to the target waypoint
+            if ((transform.position - targetPos).sqrMagnitude < 0.01f)
+            {
+                NextPoint();
+            }
 
-            transform.position = Vector2.MoveTowards(transform.position, targetPos, platformSpeed * Time.deltaTime);
+            // Apply velocity
+            rb.velocity = moveDirection * platformSpeed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero; // Stop the platform when not moving
         }
     }
 
-    public void ChangePlatformProporties(ColorPicker.ColorEnum color)
+    void NextPoint()
     {
-        ColorPicker.ColorEnum prevColor = currentColor;
-        currentColor = color;
+        // Reverse direction at the ends of the waypoint array
+        if (pointIndex == globalWaypointsIndex)
+            direction = -1;
+        if (pointIndex == 0)
+            direction = 1;
 
-        switch (color)
+        // Update the next target position
+        pointIndex += direction;
+        targetPos = globalWaypoints[pointIndex];
+        CalculateDirection();
+    }
+
+    void CalculateDirection()
+    {
+        // Calculate normalized direction towards the target position
+        moveDirection = (targetPos - transform.position).normalized;
+    }
+
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Hello");
+
+        PlayerMovement player = collision.GetComponent<PlayerMovement>();
+        if (player != null)
         {
-            case ColorPicker.ColorEnum.Blue:
-                if (canBeBlue)
-                {
-                    Debug.Log("Hello");
-                    if (prevColor == ColorPicker.ColorEnum.Yellow || prevColor == ColorPicker.ColorEnum.Gray)
-                        _SpriteRenderer.color = new Color(0, 0, 1);
-                    if (prevColor == ColorPicker.ColorEnum.Red)
-                    {
-                        _SpriteRenderer.color = new Color(0, 0, 1,0.3f);
-                    }
-                    moveOn = true;
-                }
-                break;
-            case ColorPicker.ColorEnum.Red:
-                if (canBeRed)
-                {
-                    gameObject.layer = ghostMask;
-                    if (_SpriteRenderer.color != new Color(1, 0, 0.3f))
-                        _SpriteRenderer.color = new Color(1, 0, 0, 0.3f);
-                    if (_Effector != null)
-                        _Effector.useColliderMask = false;
-                    if (_PolygonCollider != null)
-                    {
-                        Debug.Log("collider");
-                        _PolygonCollider.excludeLayers = playerLayer;
-                    }
-                    if (_Collider != null)
-                        _Collider.excludeLayers = playerLayer;
-                    moveOn = false;
-                }
-
-                break;
-            case ColorPicker.ColorEnum.Yellow:
-                if (canBeYellow)
-                {
-                    gameObject.layer = groundMask;
-                    if (_SpriteRenderer.color != Color.yellow)
-                        _SpriteRenderer.color = Color.yellow;
-                    if (_Effector != null)
-                        _Effector.useColliderMask = true;
-                    if (_Collider != null)
-                        _Collider.includeLayers = playerLayer;
-                    if (_PolygonCollider != null)
-                        _PolygonCollider.excludeLayers = playerLayer;
-                    moveOn = false;
-                }
-                break;
-            default:
-                _SpriteRenderer.color = Color.gray;
-                break;
+            Debug.Log("World");
+            player.RB.gravityScale = 50;
+            player.platformRB = rb;
+            player.isOnPlatform = true;
         }
-    }
-    //Logic for moving player with the platform
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-       
-        if (!moveOn) return;
-        PlayerMovement player = collision.collider.GetComponent<PlayerMovement>();
-        if (player != null && player.LastOnGroundTime > 0 && !player.IsJumping)
-            collision.collider.transform.SetParent(transform);
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (!moveOn) return;
-        PlayerMovement player = collision.collider.GetComponent<PlayerMovement>();
-
-
-        if (player != null && player.LastOnGroundTime > 0 && !player.IsJumping)
-            collision.collider.transform.SetParent(transform);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (!moveOn) return;
-        Player player = collision.gameObject.GetComponent<Player>();
-        if (player == null)
-            return;
-        collision.collider.transform.SetParent(null);
+        Debug.Log("Hello");
+
+        PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
+        if (player != null)
+        {
+            Debug.Log("World");
+
+            player.isOnPlatform = false;
+        }
+ 
+    }
+
+    private void OnDrawGizmos()
+    {
+        if(localWaypoints != null)
+        {
+            Gizmos.color = Color.red;
+            float size = .3f;
+
+            for (int i = 0; i < localWaypoints.Length; i++) 
+            {
+                Vector3 globalWaypointPos = !Application.isPlaying?(localWaypoints[i] + transform.position):globalWaypoints[i];
+                Gizmos.DrawLine(globalWaypointPos - Vector3.up * size,globalWaypointPos + Vector3.up *size);
+                Gizmos.DrawLine(globalWaypointPos - Vector3.left * size,globalWaypointPos + Vector3.left *size);
+            }
+        }
     }
 
 }
