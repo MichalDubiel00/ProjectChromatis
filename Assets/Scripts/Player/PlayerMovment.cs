@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
 	public bool piv;//why is it public?
 	SoundManager audioManager;
 
-    int debug = 0;
     
     [Header("Checks")]
     [SerializeField] private Transform _groundCheckPoint;
@@ -118,7 +117,6 @@ public class PlayerMovement : MonoBehaviour
                     {
                         landingDust.Play();
                         audioManager.PlaySFX(audioManager.JumpLand);
-                        Debug.Log($"played sound = {debug++}");
                     }
 
                     _hasLanded = true;
