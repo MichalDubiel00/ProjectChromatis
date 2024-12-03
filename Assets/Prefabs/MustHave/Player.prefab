@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 8308779318303862959}
   - component: {fileID: 3221057067205276290}
   - component: {fileID: 3636193057167056120}
+  - component: {fileID: 7132218054519088418}
   - component: {fileID: 4961151517964909374}
   m_Layer: 6
   m_Name: Player
@@ -338,7 +339,6 @@ MonoBehaviour:
   stepAudio: {fileID: 0}
   stepAudio2: {fileID: 0}
   piv: 0
-  _groundCheckPoint: {fileID: 6444283683721680994}
   _groundCheckSize: {x: 0.49, y: 0.03}
   _frontWallCheckPoint: {fileID: 4566224482631033848}
   _backWallCheckPoint: {fileID: 6641091701133211689}
@@ -346,6 +346,15 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  verticalRayCastCount: 3
+  horizontalRayCastCount: 3
+  skinWidth: 0.015
+  slopeCheckDistance: 0
+  maxSlopeAngle: 80
+  _groundCheckPoint: {fileID: 6444283683721680994}
+  rayThreshold: 0
+  isOnPlatform: 0
+  platformRB: {fileID: 0}
 --- !u!114 &3755044877396985509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,14 +367,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3047c20a82bc0ff45a17d2b408b09511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  movementSpeed: 0
+  groundCheckRadius: 0
   jumpForce: 10
-  gameInput: {fileID: 4387444260833279512, guid: 0cd1ea77a1388f142aa71b51b8185d27, type: 3}
-  _groundCheckPoint: {fileID: 6444283683721680994}
-  _groundCheckSize: {x: 0.49, y: 0.03}
-  _groundLayer:
+  slopeCheckDistance: 0
+  maxSlopeAngle: 0
+  groundCheck: {fileID: 0}
+  whatIsGround:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
+  noFriction: {fileID: 0}
+  fullFriction: {fileID: 0}
 --- !u!114 &1201924144689636092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,6 +597,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &7132218054519088418
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4684375797935305534}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.3, y: -0.1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 3.7}
+  m_EdgeRadius: 0
 --- !u!82 &4961151517964909374
 AudioSource:
   m_ObjectHideFlags: 0

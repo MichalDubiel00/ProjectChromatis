@@ -90,7 +90,8 @@ public class PlayerMovement : MonoBehaviour
     float verticalRaySpecing;
     float horizontalRaySpecing;
 
-    //slopes
+    [Header("Slopes")]
+
     [SerializeField] private float slopeCheckDistance;
     [SerializeField] private float maxSlopeAngle = 80;
     [SerializeField] private Transform _groundCheckPoint;
@@ -141,7 +142,6 @@ public class PlayerMovement : MonoBehaviour
         LastOnWallLeftTime -= Time.deltaTime;
 
         LastPressedJumpTime -= Time.deltaTime;
-        animator.SetFloat("yVelocity",RB.velocity.y);
         if (GameInput.instance == null)
         {
             Debug.LogError("GameInput instance is not initialized.");
@@ -162,6 +162,9 @@ public class PlayerMovement : MonoBehaviour
         if (!IsJumping)
         {
             UpdateRaycastOrigins();
+            collisions.Reset();
+            GroundCheck();
+            SlopeCheck();
 
 
             //Ground Check
@@ -373,9 +376,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        collisions.Reset();
-        GroundCheck();
-        SlopeCheck();
+   
         //Handle Run
         if (IsWallJumping)
                 Run(Data.wallJumpRunLerp);
@@ -387,9 +388,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 Slide();
             }
+        animator.SetFloat("yVelocity", RB.velocity.y);
 
     }
-    
+
     public void OnJumpInput()
     {
         LastPressedJumpTime = Data.jumpInputBufferTime;
@@ -647,16 +649,16 @@ public class PlayerMovement : MonoBehaviour
         raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
     }
 
-    void CalculateRaySpacing() 
+    void CalculateRaySpacing()
     {
         Bounds bounds = boxCollider2D.bounds;
         bounds.Expand(skinWidth * -2);
 
-        verticalRayCastCount = Mathf.Clamp(verticalRayCastCount, 2, int.MaxValue);
         horizontalRayCastCount = Mathf.Clamp(horizontalRayCastCount, 2, int.MaxValue);
+        verticalRayCastCount = Mathf.Clamp(verticalRayCastCount, 2, int.MaxValue);
 
-
-        verticalRaySpecing = bounds.size.x / ( verticalRayCastCount - 1);
-        horizontalRaySpecing = bounds.size.y / ( horizontalRayCastCount - 1);
+        horizontalRaySpecing = bounds.size.y / (horizontalRayCastCount - 1);
+        verticalRaySpecing = bounds.size.x / (verticalRayCastCount - 1);
     }
+
 }
