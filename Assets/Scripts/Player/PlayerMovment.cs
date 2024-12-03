@@ -3,13 +3,13 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
     public PlayerData Data;
-
-
-    	
+   	
     //state Parameters
     public Rigidbody2D RB { get; private set; }
     public BoxCollider2D boxCollider2D { get; private set; }
@@ -23,18 +23,17 @@ public class PlayerMovement : MonoBehaviour
     public float LastOnWallTime { get; private set; }
     public float LastOnWallRightTime { get; private set; }
     public float LastOnWallLeftTime { get; private set; }
+    public float LastPressedJumpTime { get; private set; }
+
 
     private bool _isJumpCut;
     private bool _isJumpFalling;
     private bool _hasLanded;
 
-
     private float _wallJumpStartTime;
     private int _lastWallJumpDir;
 
     private Vector2 _moveInput;
-
-    public float LastPressedJumpTime {  get; private set; }
 
     public ParticleSystem dust;
     public ParticleSystem landingDust;
@@ -46,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
 
     
     [Header("Checks")]
-    [SerializeField] private Transform _groundCheckPoint;
     //Size of groundCheck depends on the size of your character generally you want them slightly small than width (for ground) and height (for the wall check)
     [SerializeField] private Vector2 _groundCheckSize = new Vector2(0.49f, 0.03f);
     [Space(5)]
@@ -61,19 +59,55 @@ public class PlayerMovement : MonoBehaviour
     //RaycastDetection
     struct RaycastOrigins 
     {
+        
         public Vector2 bottomLeft, bottomRight;
+        public Vector2 topLeft, topRight;
+    }
+    struct CollisionsInfo
+    {
+        public bool above, below;
+        public bool left, right;
+
+        public bool climbingSlope;
+        public float slopeAngle, slopeAngleOld;
+
+        public void Reset()
+        {
+            above = below = false;
+            left = right = false;
+            climbingSlope = false;
+
+            slopeAngleOld = slopeAngle;
+            slopeAngle = 0;
+        }
     }
     RaycastOrigins raycastOrigins;
-    public int horizontalRayCastCount = 3;
+    CollisionsInfo collisions;
     public int verticalRayCastCount = 3;
+    public int horizontalRayCastCount = 3;
     public float  skinWidth = .015f;
 
-    float horizontalRaySpecing;
     float verticalRaySpecing;
+    float horizontalRaySpecing;
 
+    //slopes
+    [SerializeField] private float slopeCheckDistance;
+    [SerializeField] private float maxSlopeAngle = 80;
+    [SerializeField] private Transform _groundCheckPoint;
+    [SerializeField] float rayThreshold;
+
+    Vector3 velocity;
+
+    private Vector2 newVelocity;
+    private Vector2 newForce;
+    private Vector2 boxColliderSize;
+
+    private Vector2 slopeNormalPerp;
 
     //Moving Platform
+    [HideInInspector]
     public bool isOnPlatform;
+    [HideInInspector]
     public Rigidbody2D platformRB;
 
 
@@ -81,11 +115,10 @@ public class PlayerMovement : MonoBehaviour
     {
         RB = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
-		//TODO Animation Handler PlayerAnimatorClass    
-		
-		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();
-		
 
+        boxColliderSize = boxCollider2D.size;
+		
+		audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<SoundManager>();		
 	}
 
     private void Start()
@@ -129,49 +162,9 @@ public class PlayerMovement : MonoBehaviour
         if (!IsJumping)
         {
             UpdateRaycastOrigins();
-            CalculateRaySpacing();
 
-            float rayLength = skinWidth+0.2f;
-            for (int i = 0; i < verticalRayCastCount; i++)
-            {
-               
-                Vector2 rayOrigin = raycastOrigins.bottomLeft;
-                rayOrigin += Vector2.right * (verticalRaySpecing * i);
-                RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down , rayLength, _groundLayer);
-                Debug.DrawRay(rayOrigin, Vector2.down * rayLength, Color.red);
-                if (hit)
-                {
-                    Debug.Log("LastOnGroundTime: " + LastOnGroundTime);
-                    Debug.Log("_hasLanded: " + _hasLanded);
-                    rayLength = hit.distance;
-                    if (LastOnGroundTime < -0.1f && !_hasLanded)
-                    {
-
-                        //TODO:
-                        //AnimHandler.justLanded = true;
-                        animator.SetBool("isJumping", false);
-                        animator.SetBool("isGrounded", true);
-                        // Landing Dust abspielen, wenn der Spieler landet
-                        if (landingDust != null)
-                        {
-                            landingDust.Play();
-                            audioManager.PlaySFX(audioManager.JumpLand);
-                        }
-
-                        _hasLanded = true;
-                    }
-                    else
-                        _hasLanded = false;
-
-                    LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
-                }
-            }
 
             //Ground Check
-            if (Physics2D.OverlapBox(_groundCheckPoint.position, _groundCheckSize, 0, _groundLayer)) //checks if set box overlaps with ground
-            {
-                //Testing with ray cast for better slopes physic
-            }
 
             //Right Wall Check
             if (((Physics2D.OverlapBox(_frontWallCheckPoint.position, _wallCheckSize, 0, _groundLayer) && IsFacingRight)
@@ -185,10 +178,14 @@ public class PlayerMovement : MonoBehaviour
 
             //Two checks needed for both left and right walls since whenever the play turns the wall checkPoints swap sides
             LastOnWallTime = Mathf.Max(LastOnWallLeftTime, LastOnWallRightTime);
+           
         }
+
         #endregion
+       
 
 
+       
 
         #region JUMP CHECKS
         if (IsJumping && RB.velocity.y < 0)
@@ -270,19 +267,127 @@ public class PlayerMovement : MonoBehaviour
         #endregion
 
     }
+    void GroundCheck()
+    {
+
+        float rayLength = skinWidth + 1f;
+        for (int i = 0; i < verticalRayCastCount; i++)
+        {
+
+            Vector2 rayOrigin = raycastOrigins.bottomLeft;
+            rayOrigin += Vector2.right * (verticalRaySpecing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, rayLength, _groundLayer);
+            Debug.DrawRay(rayOrigin, Vector2.down * rayLength, Color.red);
+            if (hit)
+            {
+
+                rayLength = hit.distance;
+                if (LastOnGroundTime < -0.1f && !_hasLanded)
+                {
+
+                    //TODO:
+                    //AnimHandler.justLanded = true;
+                    animator.SetBool("isJumping", false);
+                    animator.SetBool("isGrounded", true);
+                    // Landing Dust abspielen, wenn der Spieler landet
+                    if (landingDust != null)
+                    {
+                        landingDust.Play();
+                        audioManager.PlaySFX(audioManager.JumpLand);
+                    }
+
+                    _hasLanded = true;
+                }
+                else
+                    _hasLanded = false;
+
+                LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+            }
+        }
+    }
+    private void SlopeCheck()
+    {
+        float rayLength = skinWidth*2f*rayThreshold;
+
+        float direction = IsFacingRight ? 1f : -1f;
+
+        for (int i = 0; i < horizontalRayCastCount; i++)
+        {
+            Vector2 rayOrigin = (direction == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight;
+            rayOrigin += Vector2.up * (horizontalRaySpecing * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * direction, rayLength, _groundLayer);
+
+            Debug.DrawRay(rayOrigin, Vector2.right * direction * rayLength, Color.red);
+
+            if (hit)
+            {
+
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+                if (i == 0 && slopeAngle <= maxSlopeAngle)
+                {
+                    float distanceToSlopeStart = 0;
+                    if (slopeAngle != collisions.slopeAngleOld)
+                    {
+                        distanceToSlopeStart = hit.distance - skinWidth;
+                        velocity.x -= distanceToSlopeStart * direction;
+                    }
+                    ClimbSlope(slopeAngle);
+                    velocity.x += distanceToSlopeStart * direction;
+                }
+
+                if (!collisions.climbingSlope || slopeAngle > maxSlopeAngle)
+                {
+                    velocity.x = (hit.distance - skinWidth) * direction;
+                    rayLength = hit.distance;
+
+                    if (collisions.climbingSlope)
+                    {
+                        velocity.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x);
+                    }
+
+                    collisions.left = direction == -1;
+                    collisions.right = direction == 1;
+                }
+            }
+        }
+    }
+    void ClimbSlope(float slopeAngle)
+    {
+        float moveDistance = Mathf.Abs(_moveInput.x * Data.runMaxSpeed); // Adjust target speed based on input
+        float climbVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+
+        if (RB.velocity.y <= climbVelocityY)
+        {
+            // Set Rigidbody velocity to handle slope climbing
+            RB.velocity = new Vector2(
+                Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(_moveInput.x), // Adjust X velocity
+                climbVelocityY // Y velocity for climbing the slope
+            );
+            collisions.below = true;
+            collisions.climbingSlope = true;
+            collisions.slopeAngle = slopeAngle;
+        }
+    }
+
+
     private void FixedUpdate()
     {
+        collisions.Reset();
+        GroundCheck();
+        SlopeCheck();
         //Handle Run
         if (IsWallJumping)
-            Run(Data.wallJumpRunLerp);
-        else
-            Run(1);
+                Run(Data.wallJumpRunLerp);
+            else
+                Run(1);
 
-        //Handle Slide
-        if (IsSliding)
-        {
-            Slide();
-        }
+            //Handle Slide
+            if (IsSliding)
+            {
+                Slide();
+            }
+
     }
     
     public void OnJumpInput()
@@ -418,6 +523,7 @@ public class PlayerMovement : MonoBehaviour
     
     }
 
+
     private void Turn()
     {
         if (Time.deltaTime != 0)
@@ -535,8 +641,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Bounds bounds = boxCollider2D.bounds;
         bounds.Expand(skinWidth * -2);
-        raycastOrigins.bottomRight = new Vector2(bounds.min.x, bounds.min.y);
-        raycastOrigins.bottomLeft = new Vector2(bounds.max.x, bounds.min.y);
+        raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
+        raycastOrigins.bottomRight = new Vector2(bounds.max.x, bounds.min.y);
+        raycastOrigins.topLeft = new Vector2(bounds.min.x, bounds.max.y);
+        raycastOrigins.topRight = new Vector2(bounds.max.x, bounds.max.y);
     }
 
     void CalculateRaySpacing() 
@@ -544,10 +652,11 @@ public class PlayerMovement : MonoBehaviour
         Bounds bounds = boxCollider2D.bounds;
         bounds.Expand(skinWidth * -2);
 
-        horizontalRayCastCount = Mathf.Clamp(horizontalRayCastCount, 2, int.MaxValue);
         verticalRayCastCount = Mathf.Clamp(verticalRayCastCount, 2, int.MaxValue);
+        horizontalRayCastCount = Mathf.Clamp(horizontalRayCastCount, 2, int.MaxValue);
 
+
+        verticalRaySpecing = bounds.size.x / ( verticalRayCastCount - 1);
         horizontalRaySpecing = bounds.size.y / ( horizontalRayCastCount - 1);
-        verticalRaySpecing = bounds.size.y / ( verticalRayCastCount - 1);
     }
 }
