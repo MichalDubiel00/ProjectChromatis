@@ -439,16 +439,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (skinAdjustment <= distanceToSlope)
                 {
-                    float moveDistance = Mathf.Abs(Data.maxFallSpeed);
-
-                    float descendVelocityY = Mathf.Clamp(Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance, 0f, Data.maxFallSpeed);
-                    float VelocityX = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance;
-
-                    // Apply calculated velocities
-                    RB.AddForce(VelocityX * Vector2.right);
-                    RB.AddForce(descendVelocityY * Vector2.down, ForceMode2D.Force);
-                    // Update collision state
-                    collisions.below = true;
+                    //SOMeHOW DOING NOTTHIGN WORKS THE BEST I GUESS
                     collisions.slidingMaxSlope = true;
                     collisions.slopeAngle = slopeAngle;
                     collisions.slopeNormal = hit.normal;
