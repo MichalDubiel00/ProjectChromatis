@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
@@ -69,16 +70,21 @@ public class PlayerMovement : MonoBehaviour
         public bool left, right;
 
         public bool climbingSlope;
+        public bool descendingSlope;
+        public bool slidingMaxSlope;
         public float slopeAngle, slopeAngleOld;
+        public Vector2 slopeNormal;
 
         public void Reset()
         {
             above = below = false;
             left = right = false;
             climbingSlope = false;
+            slidingMaxSlope = false;
 
             slopeAngleOld = slopeAngle;
             slopeAngle = 0;
+            slopeNormal = Vector2.zero;
         }
     }
     RaycastOrigins raycastOrigins;
@@ -93,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Slopes")]
 
     [SerializeField] private float slopeCheckDistance;
-    [SerializeField] private float maxSlopeAngle = 80;
     [SerializeField] private Transform _groundCheckPoint;
     [SerializeField] float rayThreshold;
 
@@ -134,8 +139,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-  
-        
+
+        animator.SetFloat("yVelocity", RB.velocity.y);
+
         LastOnGroundTime -= Time.deltaTime;
         LastOnWallTime -= Time.deltaTime;
         LastOnWallRightTime -= Time.deltaTime;
@@ -163,6 +169,11 @@ public class PlayerMovement : MonoBehaviour
         {
             UpdateRaycastOrigins();
             collisions.Reset();
+
+            if (RB.velocity.y < 0)
+            {
+                DescendSlope();
+            }
             GroundCheck();
             SlopeCheck();
 
@@ -305,6 +316,22 @@ public class PlayerMovement : MonoBehaviour
                     _hasLanded = false;
 
                 LastOnGroundTime = Data.coyoteTime; //if so sets the lastGrounded to coyoteTime
+            }            
+        }
+        if (collisions.climbingSlope)
+        {
+            float direction = IsFacingRight ? 1f : -1f;
+            Vector2 rayOrigin = ((direction == -1) ? raycastOrigins.bottomLeft : raycastOrigins.bottomRight) + Vector2.down;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * direction, rayLength, _groundLayer);
+
+            if (hit)
+            {
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                if (slopeAngle != collisions.slopeAngle)
+                {
+                    collisions.slopeAngle = slopeAngle;
+                    collisions.slopeNormal = hit.normal;
+                }
             }
         }
     }
@@ -327,57 +354,137 @@ public class PlayerMovement : MonoBehaviour
 
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
-                if (i == 0 && slopeAngle <= maxSlopeAngle)
-                {
-                    float distanceToSlopeStart = 0;
-                    if (slopeAngle != collisions.slopeAngleOld)
-                    {
-                        distanceToSlopeStart = hit.distance - skinWidth;
-                        velocity.x -= distanceToSlopeStart * direction;
-                    }
+                if (i == 0 && slopeAngle <= Data.maxSlopeAngle)
+                {                  
                     ClimbSlope(slopeAngle);
-                    velocity.x += distanceToSlopeStart * direction;
-                }
-
-                if (!collisions.climbingSlope || slopeAngle > maxSlopeAngle)
-                {
-                    velocity.x = (hit.distance - skinWidth) * direction;
-                    rayLength = hit.distance;
-
-                    if (collisions.climbingSlope)
-                    {
-                        velocity.y = Mathf.Tan(collisions.slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(velocity.x);
-                    }
-
-                    collisions.left = direction == -1;
-                    collisions.right = direction == 1;
                 }
             }
         }
     }
     void ClimbSlope(float slopeAngle)
     {
-        float moveDistance = Mathf.Abs(_moveInput.x * Data.runMaxSpeed); // Adjust target speed based on input
+        float moveDistance = Mathf.Abs(_moveInput.x * Data.runMaxSpeed);
         float climbVelocityY = Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+        float climbVelocityX = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance;
 
         if (RB.velocity.y <= climbVelocityY)
         {
-            // Set Rigidbody velocity to handle slope climbing
-            RB.velocity = new Vector2(
-                Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance * Mathf.Sign(_moveInput.x), // Adjust X velocity
-                climbVelocityY // Y velocity for climbing the slope
-            );
+            RB.velocity = new Vector2(climbVelocityX * Mathf.Sign(_moveInput.x), climbVelocityY);
             collisions.below = true;
             collisions.climbingSlope = true;
             collisions.slopeAngle = slopeAngle;
         }
     }
 
+    void DescendSlope()
+    {
+
+        float direction = IsFacingRight ? 1f : -1f;
+        Vector2 rayOrigin = (!IsFacingRight) ? raycastOrigins.bottomRight : raycastOrigins.bottomLeft;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.down, Mathf.Infinity, _groundLayer);
+
+        if (hit)
+        {
+           
+            float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+            if (slopeAngle != 0 && slopeAngle <= Data.maxDescentAngle)
+            {
+                if (Mathf.Sign(hit.normal.x) == direction)
+                {
+                    float distanceToSlope = Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(RB.velocity.x);
+                    float skinAdjustment = hit.distance - skinWidth;
+
+                    if (skinAdjustment <= distanceToSlope)
+                    {
+                        float moveDistance = Mathf.Abs(_moveInput.x * Data.runMaxSpeed);
+
+                        float descendVelocityY = Mathf.Clamp(Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance, 0f, Data.maxFallSpeed);
+                        float velocityX = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+
+                        //doesnt work still slides dont know the fix
+                        if (_moveInput.x == 0f)
+                        {
+                            // Counteract gravity fully along the slope
+                            Vector2 slopeNormal = hit.normal.normalized;
+
+                            // Remove velocity along the slope
+                            Vector2 velocityAlongSlope = Vector3.Project(RB.velocity, slopeNormal);
+                            RB.velocity -= velocityAlongSlope;
+
+                            // Fully counteract gravity on the slope
+                            float gravityForce = Vector2.Dot(Physics2D.gravity, slopeNormal);
+                            RB.AddForce(-gravityForce * slopeNormal, ForceMode2D.Force);
+
+                            // Ensure no sliding
+                            RB.velocity = Vector2.zero;
+                        }
+                        else
+                        {
+                            // Apply calculated velocities
+                            RB.AddForce(velocityX * Mathf.Sign(_moveInput.x) * Vector2.right);
+                            RB.AddForce(descendVelocityY * Vector2.down, ForceMode2D.Force);
+                        }
+                        collisions.below = true;
+                        collisions.descendingSlope = true;
+                        collisions.slopeAngle = slopeAngle;
+                        collisions.slopeNormal = hit.normal;
+                    }
+                }
+            }
+            else if (slopeAngle != 0 && slopeAngle >= Data.maxSlopeAngle && slopeAngle < 90) 
+            {
+                float distanceToSlope = Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(RB.velocity.x);
+                float skinAdjustment = hit.distance - skinWidth;
+
+                if (skinAdjustment <= distanceToSlope)
+                {
+                    float moveDistance = Mathf.Abs(Data.maxFallSpeed);
+
+                    float descendVelocityY = Mathf.Clamp(Mathf.Sin(slopeAngle * Mathf.Deg2Rad) * moveDistance, 0f, Data.maxFallSpeed);
+                    float VelocityX = Mathf.Cos(slopeAngle * Mathf.Deg2Rad) * moveDistance;
+
+                    // Apply calculated velocities
+                    RB.AddForce(VelocityX * Vector2.right);
+                    RB.AddForce(descendVelocityY * Vector2.down, ForceMode2D.Force);
+                    // Update collision state
+                    collisions.below = true;
+                    collisions.slidingMaxSlope = true;
+                    collisions.slopeAngle = slopeAngle;
+                    collisions.slopeNormal = hit.normal;
+                }
+            }
+        }
+    }
+    void SlideDownMaxSlope(RaycastHit2D hit)
+    {
+        if (hit)
+        {
+            float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+
+            if (slopeAngle > Data.maxSlopeAngle)
+            {             
+                collisions.slopeAngle = slopeAngle;
+                collisions.slidingMaxSlope = true;
+                collisions.slopeNormal = hit.normal;
+
+                // Restore default gravity scale if needed later
+                RB.gravityScale = 1f;
+            }
+        }
+    }
+
+
+
+
 
     private void FixedUpdate()
     {
-   
+
         //Handle Run
+        if (!collisions.slidingMaxSlope)
+        {
+
         if (IsWallJumping)
                 Run(Data.wallJumpRunLerp);
             else
@@ -388,8 +495,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 Slide();
             }
-        animator.SetFloat("yVelocity", RB.velocity.y);
 
+        }
     }
 
     public void OnJumpInput()
@@ -555,8 +662,20 @@ public class PlayerMovement : MonoBehaviour
         float force = Data.jumpForce;
         if (RB.velocity.y < 0)
             force -= RB.velocity.y;
+        if (RB.velocity.y > 0)
+            RB.velocity = new Vector2(RB.velocity.x,0);
 
-        RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        if (collisions.slidingMaxSlope)
+        {
+            if (collisions.slopeNormal != Vector2.zero && (_moveInput.x != -Mathf.Sign(collisions.slopeNormal.x)))
+            {
+                RB.AddForce(collisions.slopeNormal * force, ForceMode2D.Impulse);
+            }
+            return;
+        }
+        else
+           RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        
 
         // Staub beim Sprung abspielen
         if (dust != null)
@@ -612,6 +731,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool CanJump()
     {
+
         return LastOnGroundTime > 0 && !IsJumping;
     }
 
