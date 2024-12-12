@@ -356,9 +356,12 @@ public class PlayerMovement : MonoBehaviour
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
                 if (i == 0 && slopeAngle <= Data.maxSlopeAngle)
-                {                  
+                {
+                    collisions.slopeNormal = hit.normal;
                     ClimbSlope(slopeAngle);
                 }
+                else
+                    collisions.slidingMaxSlope = true;
             }
         }
     }
@@ -374,6 +377,7 @@ public class PlayerMovement : MonoBehaviour
             collisions.below = true;
             collisions.climbingSlope = true;
             collisions.slopeAngle = slopeAngle;
+
         }
     }
 
@@ -433,7 +437,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }//Max Slope Handling
-            else if (slopeAngle != 0 && slopeAngle >= Data.maxSlopeAngle && slopeAngle < 90) 
+            else if (slopeAngle != 0 && slopeAngle >= Data.maxSlopeAngle) 
             {
                 float distanceToSlope = Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(RB.velocity.x);
                 float skinAdjustment = hit.distance - skinWidth;
@@ -631,10 +635,7 @@ public class PlayerMovement : MonoBehaviour
         //This means we'll always feel like we jump the same amount 
         //(setting the player's Y velocity to 0 beforehand will likely work the same, but I find this more elegant :D)
         float force = Data.jumpForce;
-        if (RB.velocity.y < 0)
-            force -= RB.velocity.y;
-        if (RB.velocity.y > 0)
-            RB.velocity = new Vector2(RB.velocity.x,0);
+            RB.velocity = new Vector2(Mathf.Clamp(RB.velocity.x,-Data.maxFallSpeed,Data.maxFallSpeed),0);
 
         if (collisions.slidingMaxSlope)
         {
@@ -642,6 +643,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
             }
+            else
+                RB.AddForce(Vector2.zero, ForceMode2D.Impulse);
         }
         else
            RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
