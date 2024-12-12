@@ -207,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
         {
             IsJumping = false;
 
-            _isJumpFalling = true;
+            _isJumpFalling = false;
         }
 
         if (IsWallJumping && Time.time - _wallJumpStartTime > Data.wallJumpTime)
@@ -360,7 +360,7 @@ public class PlayerMovement : MonoBehaviour
                     collisions.slopeNormal = hit.normal;
                     ClimbSlope(slopeAngle);
                 }
-                else
+                else if(i == 0 && slopeAngle >= Data.maxSlopeAngle && slopeAngle < 90)
                     collisions.slidingMaxSlope = true;
             }
         }
@@ -641,14 +641,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (collisions.slopeNormal != Vector2.zero && (_moveInput.x != -Mathf.Sign(collisions.slopeNormal.x)))
             {
-                RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+                if (RB.velocity.x < Data.runMaxSpeed)
+                {
+                    RB.AddForce(collisions.slopeNormal * force, ForceMode2D.Impulse);
+                }
+                else
+                    RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+
             }
-            else
-                RB.AddForce(Vector2.zero, ForceMode2D.Impulse);
+            return;
         }
         else
            RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-        Debug.Log($"Force = {force}");
 
         // Staub beim Sprung abspielen
         if (dust != null)
