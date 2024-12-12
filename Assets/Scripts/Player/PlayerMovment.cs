@@ -9,6 +9,7 @@ using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public float test;
     public PlayerData Data;
    	
     //state Parameters
@@ -431,7 +432,7 @@ public class PlayerMovement : MonoBehaviour
                         collisions.slopeNormal = hit.normal;
                     }
                 }
-            }
+            }//Max Slope Handling
             else if (slopeAngle != 0 && slopeAngle >= Data.maxSlopeAngle && slopeAngle < 90) 
             {
                 float distanceToSlope = Mathf.Tan(slopeAngle * Mathf.Deg2Rad) * Mathf.Abs(RB.velocity.x);
@@ -439,7 +440,7 @@ public class PlayerMovement : MonoBehaviour
 
                 if (skinAdjustment <= distanceToSlope)
                 {
-                    //SOMeHOW DOING NOTTHIGN WORKS THE BEST I GUESS
+                    //SOMEHOW DOING NOTTHIGN WORKS THE BEST I GUESS
                     collisions.slidingMaxSlope = true;
                     collisions.slopeAngle = slopeAngle;
                     collisions.slopeNormal = hit.normal;
@@ -447,27 +448,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-    void SlideDownMaxSlope(RaycastHit2D hit)
-    {
-        if (hit)
-        {
-            float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-
-            if (slopeAngle > Data.maxSlopeAngle)
-            {             
-                collisions.slopeAngle = slopeAngle;
-                collisions.slidingMaxSlope = true;
-                collisions.slopeNormal = hit.normal;
-
-                // Restore default gravity scale if needed later
-                RB.gravityScale = 1f;
-            }
-        }
-    }
-
-
-
-
 
     private void FixedUpdate()
     {
@@ -660,13 +640,12 @@ public class PlayerMovement : MonoBehaviour
         {
             if (collisions.slopeNormal != Vector2.zero && (_moveInput.x != -Mathf.Sign(collisions.slopeNormal.x)))
             {
-                RB.AddForce(collisions.slopeNormal * force, ForceMode2D.Impulse);
+                RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
             }
-            return;
         }
         else
            RB.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-        
+        Debug.Log($"Force = {force}");
 
         // Staub beim Sprung abspielen
         if (dust != null)
