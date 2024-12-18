@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 //Scene Loader
 public static class Loader
 {
-    //Add new Scenes Here must equal Scene Name 1:1
+    //Add new Scenes Here must be same as Scene Name 1:1
     public enum Scene
     {
         PlayRoomScene,
@@ -17,7 +17,8 @@ public static class Loader
         DoorScene,
         MichalPlayRoomScene, 
         MichalWorkingOnplatformsScene,
-        LevelOneNam
+        LevelOneNam,
+        MovementTestingScene
     }
 
     private static Scene targetScene;

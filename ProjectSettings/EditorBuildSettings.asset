@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelOneNam.unity
     guid: 9ce95b76c4590bf4985a23b1e1486795
+  - enabled: 1
+    path: Assets/Scenes/MovementTestingScene.unity
+    guid: 202a1cede1d1c6049a955abc9070adeb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 72fd067eca810fe429a9cf279dc754f3, type: 3}
