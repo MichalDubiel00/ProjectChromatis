@@ -49,6 +49,8 @@ public class CharacterRanged : MonoBehaviour
 
     private void throwDroplet(Vector2 relativeMousePosition)
     {
+        if (GameMananger.instance.isPause) return;
+
         ColorPicker.ColorEnum choosenColor = player.CurrentColor;
         if (player.Colors[choosenColor] <= 0)
             return;

@@ -140,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (GameMananger.instance.isPause) return;
 
         animator.SetFloat("yVelocity", RB.velocity.y);
 
@@ -455,6 +456,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameMananger.instance.isPause) return;
 
         //Handle Run
         if (!collisions.slidingMaxSlope)

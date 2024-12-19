@@ -7,7 +7,8 @@ public class GameMananger : MonoBehaviour
 {
     public bool juiceOn = true;
 
-    bool isPause = false;
+    [HideInInspector]
+    public bool isPause = false;
     // Start is called before the first frame update
     public static GameMananger instance { get; private set; }
 
