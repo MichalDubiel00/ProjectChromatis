@@ -67,7 +67,8 @@ public class ColorDroppletController : MonoBehaviour
         else
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         StartCoroutine(SquashEffect(collision));
-
+        if (obj != null)
+            obj.ChangePlatformProporties(currentColor);
         if (obj == null && isThrown == true)
         {
             isThrown = false;
@@ -82,8 +83,7 @@ public class ColorDroppletController : MonoBehaviour
         ObjectColoring obj = collision.GetComponent<ObjectColoring>();
         if (!(collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall") || obj != null))
             return;
-        if (obj != null)
-            obj.ChangePlatformProporties(currentColor);
+    
         if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wall"))
         {
             StartCoroutine(SquezeEffect(collision));

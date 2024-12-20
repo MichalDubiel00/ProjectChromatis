@@ -19,6 +19,7 @@ public class ObjectColoring : MonoBehaviour
     PolygonCollider2D _PolygonCollider;
     PlatformEffector2D _Effector;
     [SerializeField] LayerMask playerLayer;
+    [SerializeField] LayerMask enemyLayer;
     int groundMask;
     int ghostMask;
 
@@ -79,9 +80,14 @@ public class ObjectColoring : MonoBehaviour
                     {
                         Debug.Log("collider");
                         _PolygonCollider.excludeLayers = playerLayer;
+                        _PolygonCollider.excludeLayers += enemyLayer;
                     }
                     if (_Collider != null)
+                    { 
                         _Collider.excludeLayers = playerLayer;
+                        _Collider.excludeLayers += enemyLayer;
+                    }
+
                     platformController.moveOn = false;
                 }
 
@@ -95,9 +101,9 @@ public class ObjectColoring : MonoBehaviour
                     if (_Effector != null)
                         _Effector.useColliderMask = true;
                     if (_Collider != null)
-                        _Collider.includeLayers = playerLayer;
+                        _Collider.excludeLayers = 0;
                     if (_PolygonCollider != null)
-                        _PolygonCollider.excludeLayers = playerLayer;
+                        _PolygonCollider.excludeLayers = 0;
                     platformController.moveOn = false;
                 }
                 break;
