@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
@@ -10,11 +8,9 @@ public class ObjectColoring : MonoBehaviour
     [SerializeField] bool canBeBlue = true, canBeRed = true, canBeYellow = true;
     [SerializeField] PlatformController platformController;
 
-
     [SerializeField] ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
 
     SpriteRenderer _SpriteRenderer;
-
     Collider2D _Collider;
     PolygonCollider2D _PolygonCollider;
     PlatformEffector2D _Effector;
@@ -23,7 +19,10 @@ public class ObjectColoring : MonoBehaviour
     int groundMask;
     int ghostMask;
 
-
+    private Color targetColor;
+    [SerializeField] float coloringTime = 1f;
+    private float lerpTime = 1f; // Time to fully transition between colors
+    private float lerpTimer = 0f;
 
     public ColorPicker.ColorEnum CurrentColor
     {
@@ -37,7 +36,6 @@ public class ObjectColoring : MonoBehaviour
         groundMask = LayerMask.NameToLayer("Ground");
         ghostMask = LayerMask.NameToLayer("Ghost");
 
-
         _SpriteRenderer = GetComponent<SpriteRenderer>();
         _Effector = GetComponent<PlatformEffector2D>();
         _PolygonCollider = GetComponent<PolygonCollider2D>();
@@ -47,6 +45,15 @@ public class ObjectColoring : MonoBehaviour
         ChangePlatformProporties(currentColor);
     }
 
+    void Update()
+    {
+        // Update the color lerp over time
+        if (lerpTimer < lerpTime)
+        {
+            lerpTimer += Time.deltaTime * coloringTime;
+            _SpriteRenderer.color = Color.Lerp(_SpriteRenderer.color, targetColor, lerpTimer / lerpTime);
+        }
+    }
 
     public void ChangePlatformProporties(ColorPicker.ColorEnum color)
     {
@@ -58,46 +65,39 @@ public class ObjectColoring : MonoBehaviour
             case ColorPicker.ColorEnum.Blue:
                 if (canBeBlue)
                 {
-                    Debug.Log("Hello");
-                    if (prevColor == ColorPicker.ColorEnum.Yellow || prevColor == ColorPicker.ColorEnum.Gray)
-                        _SpriteRenderer.color = new Color(0, 0, 1);
-                    if (prevColor == ColorPicker.ColorEnum.Red)
-                    {
-                        _SpriteRenderer.color = new Color(0, 0, 1, 0.3f);
-                    }
+                    targetColor = new Color(0, 0, 1); // Set target color to Blue
+                    lerpTimer = 0f; // Reset the lerp timer
                     platformController.moveOn = true;
                 }
                 break;
             case ColorPicker.ColorEnum.Red:
                 if (canBeRed)
                 {
+                    targetColor = new Color(1, 0, 0, 0.3f); // Set target color to Red with transparency
+                    lerpTimer = 0f; // Reset the lerp timer
                     gameObject.layer = ghostMask;
-                    if (_SpriteRenderer.color != new Color(1, 0, 0.3f))
-                        _SpriteRenderer.color = new Color(1, 0, 0, 0.3f);
                     if (_Effector != null)
                         _Effector.useColliderMask = false;
                     if (_PolygonCollider != null)
                     {
-                        Debug.Log("collider");
                         _PolygonCollider.excludeLayers = playerLayer;
                         _PolygonCollider.excludeLayers += enemyLayer;
                     }
                     if (_Collider != null)
-                    { 
+                    {
                         _Collider.excludeLayers = playerLayer;
                         _Collider.excludeLayers += enemyLayer;
                     }
 
                     platformController.moveOn = false;
                 }
-
                 break;
             case ColorPicker.ColorEnum.Yellow:
                 if (canBeYellow)
                 {
+                    targetColor = Color.yellow; // Set target color to Yellow
+                    lerpTimer = 0f; // Reset the lerp timer
                     gameObject.layer = groundMask;
-                    if (_SpriteRenderer.color != Color.yellow)
-                        _SpriteRenderer.color = Color.yellow;
                     if (_Effector != null)
                         _Effector.useColliderMask = true;
                     if (_Collider != null)
@@ -108,10 +108,9 @@ public class ObjectColoring : MonoBehaviour
                 }
                 break;
             default:
-                _SpriteRenderer.color = Color.gray;
+                targetColor = Color.gray; // Set target color to Gray
+                lerpTimer = 0f; // Reset the lerp timer
                 break;
         }
     }
-    //Logic for moving player with the platform
-
 }

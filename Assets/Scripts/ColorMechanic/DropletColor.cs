@@ -14,13 +14,13 @@ public class DropletColor : MonoBehaviour
         _SpriteRenderer = GetComponent<SpriteRenderer>();
         if (_ColorPicker != null)
             SetByPicker();
-      
+
     }
     public void SetColor(Color color)
     {
         _SpriteRenderer.color = color;
     }
-    void SetByPicker()  
+    void SetByPicker()
     {
         if (_ColorPicker)
         {

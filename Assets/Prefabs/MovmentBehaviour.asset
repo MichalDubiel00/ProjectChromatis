@@ -38,8 +38,8 @@ MonoBehaviour:
   wallJumpRunLerp: 0.5
   wallJumpTime: 0.1
   doTurnOnWallJump: 0
-  slideSpeed: -12
-  slideAccel: 0
+  slideSpeed: 0
+  slideAccel: 20
   maxDescentAngle: 40
   maxSlopeAngle: 40
   coyoteTime: 0.1
