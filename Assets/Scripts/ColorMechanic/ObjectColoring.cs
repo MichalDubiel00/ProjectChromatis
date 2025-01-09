@@ -10,7 +10,8 @@ public class ObjectColoring : MonoBehaviour
 
     [SerializeField] ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
 
-    SpriteRenderer _SpriteRenderer;
+    [HideInInspector]
+    public SpriteRenderer _SpriteRenderer;
     Collider2D _Collider;
     PolygonCollider2D _PolygonCollider;
     PlatformEffector2D _Effector;
@@ -20,9 +21,10 @@ public class ObjectColoring : MonoBehaviour
     int ghostMask;
 
     private Color targetColor;
-    [SerializeField] float coloringTime = 1f;
-    private float lerpTime = 1f; // Time to fully transition between colors
-    private float lerpTimer = 0f;
+
+    private Material materialInstance; // Unique material instance for this object    public Vector3 hitPoint;
+    private Vector3 hitPoint;
+    public float spread;
 
     public ColorPicker.ColorEnum CurrentColor
     {
@@ -37,25 +39,29 @@ public class ObjectColoring : MonoBehaviour
         ghostMask = LayerMask.NameToLayer("Ghost");
 
         _SpriteRenderer = GetComponent<SpriteRenderer>();
+
+        materialInstance = Instantiate(_SpriteRenderer.material);
+        _SpriteRenderer.material = materialInstance;
+
         _Effector = GetComponent<PlatformEffector2D>();
         _PolygonCollider = GetComponent<PolygonCollider2D>();
         _Collider = GetComponent<Collider2D>();
-        _SpriteRenderer.color = Color.gray;
 
-        ChangePlatformProporties(currentColor);
+        //material = GetComponent<Material>();
+        ChangePlatformProporties(currentColor,Vector2.zero);
     }
 
     void Update()
     {
         // Update the color lerp over time
-        if (lerpTimer < lerpTime)
-        {
-            lerpTimer += Time.deltaTime * coloringTime;
-            _SpriteRenderer.color = Color.Lerp(_SpriteRenderer.color, targetColor, lerpTimer / lerpTime);
-        }
+        materialInstance.SetVector("_HitPoint", hitPoint);
+        materialInstance.SetFloat("_Spread", spread);
+
+        // Example: Gradually increase the spread radius
+       spread += Time.deltaTime * 1.5f;
     }
 
-    public void ChangePlatformProporties(ColorPicker.ColorEnum color)
+    public void ChangePlatformProporties(ColorPicker.ColorEnum color,Vector2 collisionPoint)
     {
         ColorPicker.ColorEnum prevColor = currentColor;
         currentColor = color;
@@ -65,8 +71,19 @@ public class ObjectColoring : MonoBehaviour
             case ColorPicker.ColorEnum.Blue:
                 if (canBeBlue)
                 {
-                    targetColor = new Color(0, 0, 1); // Set target color to Blue
-                    lerpTimer = 0f; // Reset the lerp timer
+
+                    if (prevColor == ColorPicker.ColorEnum.Yellow || prevColor == ColorPicker.ColorEnum.Gray || prevColor == ColorPicker.ColorEnum.Blue)
+                        targetColor = new Color(0, 0, 1);
+
+                    if (prevColor == ColorPicker.ColorEnum.Red)
+                    {
+                        targetColor = new Color(0, 0, 1, 0.3f);
+                    }
+                    materialInstance.SetColor("_TargetColor", targetColor);
+
+                    hitPoint = collisionPoint;
+
+                    spread = 0f; // Reset the lerp timer
                     platformController.moveOn = true;
                 }
                 break;
@@ -74,7 +91,12 @@ public class ObjectColoring : MonoBehaviour
                 if (canBeRed)
                 {
                     targetColor = new Color(1, 0, 0, 0.3f); // Set target color to Red with transparency
-                    lerpTimer = 0f; // Reset the lerp timer
+                    materialInstance.SetColor("_TargetColor", targetColor);
+
+                    hitPoint = collisionPoint;
+
+
+                    spread = 0f; // Reset the lerp timer
                     gameObject.layer = ghostMask;
                     if (_Effector != null)
                         _Effector.useColliderMask = false;
@@ -96,7 +118,11 @@ public class ObjectColoring : MonoBehaviour
                 if (canBeYellow)
                 {
                     targetColor = Color.yellow; // Set target color to Yellow
-                    lerpTimer = 0f; // Reset the lerp timer
+                    materialInstance.SetColor("_TargetColor", targetColor);
+
+                    hitPoint = collisionPoint;
+
+                    spread = 0f; // Reset the lerp timer
                     gameObject.layer = groundMask;
                     if (_Effector != null)
                         _Effector.useColliderMask = true;
@@ -108,8 +134,11 @@ public class ObjectColoring : MonoBehaviour
                 }
                 break;
             default:
-                targetColor = Color.gray; // Set target color to Gray
-                lerpTimer = 0f; // Reset the lerp timer
+                targetColor = Color.white; // Set target color to Gray
+                materialInstance.SetColor("_TargetColor", targetColor);
+
+                spread = 0f; // Reset the lerp timer
+                hitPoint = collisionPoint;
                 break;
         }
     }

@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Custom_SplashColor
-  m_Shader: {fileID: -6465566751694194690, guid: 036796b2a094e3c4e831c482118417c7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9708ced8d6c546940ad17018c36b25f5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -58,11 +58,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Radius: 0.08804688
+    - _Radius: 0
     - _Raius: 0.2
+    - _Spread: 517.7189
     m_Colors:
     - _Color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-    - _ImpactPoint: {r: -4.258475, g: 0.87861246, b: 0, a: 0}
+    - _HitPoint: {r: 0.68183285, g: 1.0081271, b: 0, a: 0}
+    - _ImpactPoint: {r: 3.37, g: 1.17, b: 0, a: 0}
     - _SplashColor: {r: 0, g: 0, b: 1, a: 0.3}
+    - _TargetColor: {r: 1, g: 1, b: 1, a: 1}
     - _Vector2: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

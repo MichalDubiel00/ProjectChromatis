@@ -1,49 +1,68 @@
-Shader "Custom/SplashColor"
+Shader "Custom/ColorSpread"
 {
     Properties
     {
-        _MainTex ("Sprite Texture", 2D) = "white" {}
-        _ImpactPoint ("Impact Point", Vector) = (0.5, 0.5, 0, 0)
-        _Radius ("Radius", Float) = 0.0
-        _Color ("Splash Color", Color) = (1, 0, 0, 1)
+        _MainTex("Sprite Texture", 2D) = "white" {}
+        _HitPoint("Hit Point (UV)", Vector) = (0.5, 0.5, 0, 0)
+        _Spread("Spread Radius", Float) = 0.0
+        _TargetColor("Target Color", Color) = (1, 0, 0, 1)
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
-        LOD 100
+        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
+        Blend SrcAlpha OneMinusSrcAlpha
 
-        CGPROGRAM
-        #pragma surface surf Lambert alpha:fade
-
-        sampler2D _MainTex;
-        float4 _ImpactPoint;  // Impact Point in UV space
-        float _Radius;        // Radius of the splash
-        fixed4 _Color;        // Splash color
-
-        struct Input
+        Pass
         {
-            float2 uv_MainTex; // UV coordinates of the sprite
-        };
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #include "UnityCG.cginc"
 
-        void surf(Input IN, inout SurfaceOutput o)
-        {
-            // Sample the base texture
-            fixed4 baseColor = tex2D(_MainTex, IN.uv_MainTex);
+            struct appdata_t
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-            // Calculate distance from the impact point
-            float dist = distance(float2(_ImpactPoint.x, _ImpactPoint.y), IN.uv_MainTex);
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float4 vertex : SV_POSITION;
+            };
 
-            // Smooth spread using the radius
-            float t = smoothstep(_Radius, _Radius - 0.1, dist);
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
 
-            // Blend splash color with the base color
-            fixed4 splashColor = lerp(_Color, baseColor, t);
+            float2 _HitPoint;     // Hit point in UV coordinates
+            float _Spread;        // Spread radius
+            float4 _TargetColor;  // Color to spread
 
-            // Output the result
-            o.Albedo = splashColor.rgb;
-            o.Alpha = splashColor.a;
+            v2f vert(appdata_t v)
+            {
+                v2f o;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                return o;
+            }
+
+            fixed4 frag(v2f i) : SV_Target
+            {
+                // Sample the original sprite texture
+                fixed4 originalColor = tex2D(_MainTex, i.uv);
+
+                // Calculate distance from the hit point
+                float dist = distance(i.uv, _HitPoint);
+
+                // Calculate the spread factor
+                float spreadFactor = saturate(1.0 - dist / _Spread);
+
+                // Interpolate between the original color and the target color
+                fixed4 resultColor = lerp(originalColor, _TargetColor, spreadFactor);
+
+                return resultColor;
+            }
+            ENDCG
         }
-        ENDCG
     }
-    FallBack "Transparent/VertexLit"
 }

@@ -100,7 +100,15 @@ public class ColorDroppletController : MonoBehaviour
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         StartCoroutine(SquashEffect(collision));
         if (obj != null)
-            obj.ChangePlatformProporties(currentColor);
+        {
+            var collisionPoint = collision.gameObject.GetComponent<Collider2D>().transform.position;
+            collisionPoint =  (collisionPoint - transform.position);
+            Vector3 localPos = obj._SpriteRenderer.transform.InverseTransformPoint(transform.position);
+            Bounds spriteBounds = obj._SpriteRenderer.sprite.bounds;
+            float u = (localPos.x - spriteBounds.min.x) / spriteBounds.size.x;
+            float v = (localPos.y - spriteBounds.min.y) / spriteBounds.size.y;
+            obj.ChangePlatformProporties(currentColor, new Vector2(u, v));
+        }
         if (obj == null && isThrown == true)
         {
             isThrown = false;
