@@ -9,6 +9,7 @@ public class ObjectColoring : MonoBehaviour
     [SerializeField] PlatformController platformController;
 
     [SerializeField] ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
+    [SerializeField] float maxSpread = 1.3f;
 
     [HideInInspector]
     public SpriteRenderer _SpriteRenderer;
@@ -48,20 +49,23 @@ public class ObjectColoring : MonoBehaviour
         _Collider = GetComponent<Collider2D>();
 
         //material = GetComponent<Material>();
-        ChangePlatformProporties(currentColor,Vector2.zero);
+        if (currentColor != ColorPicker.ColorEnum.Gray )
+            ChangePlatformProporties(currentColor,Vector2.zero);
     }
 
     void Update()
     {
+
         // Update the color lerp over time
         materialInstance.SetVector("_HitPoint", hitPoint);
         materialInstance.SetFloat("_Spread", spread);
 
         // Example: Gradually increase the spread radius
-       spread += Time.deltaTime * 1.5f;
+        spread = Mathf.Min(spread + Time.deltaTime * 1.5f, maxSpread); // Define maxSpread as a serialized field.
+                                                                       
     }
 
-    public void ChangePlatformProporties(ColorPicker.ColorEnum color,Vector2 collisionPoint)
+        public void ChangePlatformProporties(ColorPicker.ColorEnum color,Vector2 collisionPoint)
     {
         ColorPicker.ColorEnum prevColor = currentColor;
         currentColor = color;
@@ -134,7 +138,7 @@ public class ObjectColoring : MonoBehaviour
                 }
                 break;
             default:
-                targetColor = Color.white; // Set target color to Gray
+                targetColor = new Color(1, 1, 1, 1); // Set target color to Gray
                 materialInstance.SetColor("_TargetColor", targetColor);
 
                 spread = 0f; // Reset the lerp timer

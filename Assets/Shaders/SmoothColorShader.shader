@@ -57,10 +57,13 @@ Shader "Custom/ColorSpread"
                 // Calculate the spread factor
                 float spreadFactor = saturate(1.0 - dist / _Spread);
 
-                // Interpolate between the original color and the target color
-                fixed4 resultColor = lerp(originalColor, _TargetColor, spreadFactor);
+                // Blend the target color with the original color
+                fixed4 blendedColor = lerp(originalColor, _TargetColor, spreadFactor);
 
-                return resultColor;
+                // Preserve the original texture's alpha
+                blendedColor.a = originalColor.a;
+
+                return blendedColor;
             }
             ENDCG
         }
