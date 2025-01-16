@@ -584,7 +584,7 @@ Transform:
   m_GameObject: {fileID: 38429714}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5559795, y: -1.5, z: 0}
+  m_LocalPosition: {x: -2.6309783, y: -1.5, z: 0}
   m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1104,6 +1104,7 @@ MonoBehaviour:
   canBeYellow: 1
   platformController: {fileID: 0}
   currentColor: 0
+  maxSpread: 1.3
   _SpriteRenderer: {fileID: 0}
   playerLayer:
     serializedVersion: 2
@@ -3725,6 +3726,7 @@ MonoBehaviour:
   canBeYellow: 0
   platformController: {fileID: 0}
   currentColor: 3
+  maxSpread: 1.3
   _SpriteRenderer: {fileID: 0}
   playerLayer:
     serializedVersion: 2
@@ -4357,6 +4359,7 @@ MonoBehaviour:
   canBeYellow: 1
   platformController: {fileID: 0}
   currentColor: 3
+  maxSpread: 1.3
   _SpriteRenderer: {fileID: 0}
   playerLayer:
     serializedVersion: 2
@@ -8682,6 +8685,7 @@ MonoBehaviour:
   canBeYellow: 1
   platformController: {fileID: 0}
   currentColor: 3
+  maxSpread: 1.3
   _SpriteRenderer: {fileID: 0}
   playerLayer:
     serializedVersion: 2
@@ -8845,7 +8849,7 @@ Transform:
   m_GameObject: {fileID: 861386259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.81, y: -1.3980145, z: -10}
+  m_LocalPosition: {x: -16.06, y: -1.3880146, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9504,7 +9508,7 @@ Transform:
   m_GameObject: {fileID: 930870601}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.348059, y: 0, z: 0}
+  m_LocalPosition: {x: -4.4480605, y: 0, z: 0}
   m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10367,7 +10371,7 @@ Transform:
   m_GameObject: {fileID: 992152181}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0870148, y: -2.2291214, z: 0}
+  m_LocalPosition: {x: 1.1120151, y: -2.2291214, z: 0}
   m_LocalScale: {x: 0.56942993, y: 0.65950334, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11516,7 +11520,7 @@ Transform:
   m_GameObject: {fileID: 1132386286}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.348059, y: 0, z: 0}
+  m_LocalPosition: {x: -4.4480605, y: 0, z: 0}
   m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13053,7 +13057,7 @@ Transform:
   m_GameObject: {fileID: 1313165503}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1070137, y: -3.19, z: 0}
+  m_LocalPosition: {x: -1.132014, y: -3.19, z: 0}
   m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15656,7 +15660,7 @@ Transform:
   m_GameObject: {fileID: 1550161837}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.81, y: -1.3980145, z: -10}
+  m_LocalPosition: {x: -16.06, y: -1.3880146, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15702,7 +15706,7 @@ Transform:
   m_GameObject: {fileID: 1556326109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.0550002, y: -0.13, z: 0}
+  m_LocalPosition: {x: -1.0800005, y: -0.13, z: 0}
   m_LocalScale: {x: 1.1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22976,11 +22980,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 537245757494200272, guid: 8737b72f0d415484fa363974e58f1986, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.81
+      value: -16.06
       objectReference: {fileID: 0}
     - target: {fileID: 537245757494200272, guid: 8737b72f0d415484fa363974e58f1986, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.25
+      value: -3.24
       objectReference: {fileID: 0}
     - target: {fileID: 537245757494200272, guid: 8737b72f0d415484fa363974e58f1986, type: 3}
       propertyPath: m_LocalPosition.z
