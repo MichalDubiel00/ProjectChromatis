@@ -63,17 +63,9 @@ public class PlayerHealth : MonoBehaviour
         _isInvincible = false;
     }
 
-
+    //TODO DEATH SCREEN maybey lives like in mario?
     public void Die()
     {
-        Debug.Log("Player is dead");
-        if (Enum.TryParse(_scene.name, out Loader.Scene scene))
-        {
-            Loader.Load(scene); // Reload the current scene
-        }
-        else
-        {
-            Debug.LogError($"Add {_scene.name} to Loader Enum");
-        }
+        CheckpointManager.instance.Respawn();
     }
 }

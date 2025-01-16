@@ -31,12 +31,12 @@ Shader "Custom/ColorSpread"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
+            sampler2D _MainTex;   // Main sprite texture
             float4 _MainTex_ST;
 
             float2 _HitPoint;     // Hit point in UV coordinates
             float _Spread;        // Spread radius
-            float4 _TargetColor;  // Color to spread
+            float4 _TargetColor;  // Target color to apply
 
             v2f vert(appdata_t v)
             {
@@ -48,19 +48,22 @@ Shader "Custom/ColorSpread"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                // Sample the original sprite texture
+                // Sample the sprite's original color and alpha
                 fixed4 originalColor = tex2D(_MainTex, i.uv);
 
                 // Calculate distance from the hit point
                 float dist = distance(i.uv, _HitPoint);
 
-                // Calculate the spread factor
+                // Calculate spread factor (modulates influence of _TargetColor)
                 float spreadFactor = saturate(1.0 - dist / _Spread);
 
-                // Blend the target color with the original color
-                fixed4 blendedColor = lerp(originalColor, _TargetColor, spreadFactor);
+                // Modulate the target color by the original color
+                fixed4 colorWithAlpha = _TargetColor * originalColor.a;
 
-                // Preserve the original texture's alpha
+                // Interpolate between the original color and the target color
+                fixed4 blendedColor = lerp(originalColor, colorWithAlpha, spreadFactor);
+
+                // Preserve the sprite's original transparency
                 blendedColor.a = originalColor.a;
 
                 return blendedColor;
