@@ -79,8 +79,6 @@ public class SoundManager : MonoBehaviour
 
 	public void SetSoundFXVolume(float soundVolume)
 	{
-		Debug.Log(soundVolume+"Second");
-		Debug.Log(Mathf.Log10(soundVolume)*20f+"Log");
 		audioMixer.SetFloat("SoundFXMixer", Mathf.Log10(soundVolume)*20f);
 	}
 
