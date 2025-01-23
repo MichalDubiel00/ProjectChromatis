@@ -61,7 +61,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mycolor: 0
-  amount: 1
 --- !u!58 &1025402351921103614
 CircleCollider2D:
   m_ObjectHideFlags: 0

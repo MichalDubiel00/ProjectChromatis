@@ -18,7 +18,10 @@ public static class Loader
         MichalPlayRoomScene, 
         MichalWorkingOnplatformsScene,
         LevelOneNam,
-        MovementTestingScene
+        MovementTestingScene,
+        Tutorial,
+        LevelOneNam02,
+        Menu
     }
 
     private static Scene targetScene;

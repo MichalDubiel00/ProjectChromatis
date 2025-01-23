@@ -67,7 +67,7 @@ public class Collectible : MonoBehaviour
         }
     }
 
-
+    //not used in current game state
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Player player = collision.GetComponent<Player>();

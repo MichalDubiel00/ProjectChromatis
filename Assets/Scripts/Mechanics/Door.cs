@@ -11,6 +11,8 @@ public class Door : MonoBehaviour
     [SerializeField] Sprite closedDoorSprite;
     [SerializeField] AudioClip openDoorAudioClip;
     [SerializeField] AudioClip closedDoorAudioClip;
+
+    [SerializeField] Loader.Scene scene;
     private bool isOpen = false;
     private SpriteRenderer spriteRenderer;
 
@@ -32,7 +34,13 @@ public class Door : MonoBehaviour
     {
         Player player = collision.GetComponent<Player>();
         if (player != null ) 
-            CloseDoor();
+            CloseDoor();        
+    }
+    private System.Collections.IEnumerator LoadNewLevel()
+    {
+        
+        yield return new WaitForSeconds(2);
+        Loader.Load(scene);
     }
     private void CloseDoor()
     {
@@ -42,6 +50,7 @@ public class Door : MonoBehaviour
             spriteRenderer.sprite = closedDoorSprite;
             isOpen = false;
         }
+        StartCoroutine(LoadNewLevel());
     }
     void OpenDoor()
     {

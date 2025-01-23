@@ -10,6 +10,7 @@ public class ColorDroppletController : MonoBehaviour
     [HideInInspector] public bool isThrown = false;
 
     private bool isSquashing = false;
+    private bool hit = false;
     private Rigidbody2D rb;
     private Vector3 originalScale;
     private Animator animator;
@@ -84,6 +85,13 @@ public class ColorDroppletController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Spikes spikes = collision.GetComponent<Spikes>();
+        if (spikes != null && hit == false)
+        {
+            hit = true;
+            collectible.spawnCollectible(FindAnyObjectByType<Player>().transform.position, currentColor);
+            return;
+        }
         ObjectColoring obj = collision.GetComponent<ObjectColoring>();
         if (collision.GetComponent<Player>() == null)
         {
@@ -99,8 +107,48 @@ public class ColorDroppletController : MonoBehaviour
         else
             gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         StartCoroutine(SquashEffect(collision));
+        if (obj!= null && obj.CurrentColor == currentColor && hit == false)
+        {
+            hit = true;
+            collectible.spawnCollectible(FindAnyObjectByType<Player>().transform.position, currentColor);
+            return;
+        }
+        if (obj != null && hit == false)
+        {
+            hit = true;
+            if (obj.notPuzzle)
+            {
+
+                Vector3 localPos = obj._SpriteRenderer.transform.InverseTransformPoint(transform.position);
+                Bounds spriteBounds = obj._SpriteRenderer.sprite.bounds;
+                float u = (localPos.x - spriteBounds.min.x) / spriteBounds.size.x;
+                float v = (localPos.y - spriteBounds.min.y) / spriteBounds.size.y;
+                obj.ChangePlatformProporties(currentColor, new Vector2(u, v));
+
+                collectible.spawnCollectible(FindAnyObjectByType<Player>().transform.position, currentColor);
+
+                return;
+            }
+            if (!obj.canBeBlue && currentColor == ColorPicker.ColorEnum.Blue)
+            {
+                collectible.spawnCollectible(FindAnyObjectByType<Player>().transform.position, currentColor);
+
+                return;
+            }
+            if (!obj.canBeRed && currentColor == ColorPicker.ColorEnum.Red)
+            {
+                collectible.spawnCollectible(FindAnyObjectByType<Player>().transform.position, currentColor);
+                return;
+            }
+            if (!obj.canBeYellow && currentColor == ColorPicker.ColorEnum.Yellow)
+            {
+                collectible.spawnCollectible(FindAnyObjectByType<Player>().transform.position, currentColor);
+                return;
+            }
+        }
         if (obj != null)
         {
+            hit = true;
             var collisionPoint = collision.gameObject.GetComponent<Collider2D>().transform.position;
             collisionPoint =  (collisionPoint - transform.position);
             Vector3 localPos = obj._SpriteRenderer.transform.InverseTransformPoint(transform.position);
@@ -109,8 +157,9 @@ public class ColorDroppletController : MonoBehaviour
             float v = (localPos.y - spriteBounds.min.y) / spriteBounds.size.y;
             obj.ChangePlatformProporties(currentColor, new Vector2(u, v));
         }
-        if (obj == null && isThrown == true)
+        if (obj == null && isThrown == true && hit == false)
         {
+            hit = true;
             isThrown = false;
             collectible.spawnCollectible(transform.position, currentColor);
         }

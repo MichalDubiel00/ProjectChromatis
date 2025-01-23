@@ -5,7 +5,8 @@ using Color = UnityEngine.Color;
 
 public class ObjectColoring : MonoBehaviour
 {
-    [SerializeField] bool canBeBlue = true, canBeRed = true, canBeYellow = true;
+    public bool notPuzzle = false;
+    public bool canBeBlue = true, canBeRed = true, canBeYellow = true;
     [SerializeField] PlatformController platformController;
 
     [SerializeField] ColorPicker.ColorEnum currentColor = ColorPicker.ColorEnum.Gray;
@@ -84,23 +85,33 @@ public class ObjectColoring : MonoBehaviour
                         targetColor = new Color(0, 0, 1, 0.3f);
                     }
                     materialInstance.SetColor("_TargetColor", targetColor);
-
+        
                     hitPoint = collisionPoint;
 
                     spread = 0f; // Reset the lerp timer
-                    platformController.moveOn = true;
+                    if (notPuzzle)
+                    {
+                        break;
+                    }
+                    if (platformController != null)
+                        platformController.moveOn = true;
                 }
                 break;
             case ColorPicker.ColorEnum.Red:
                 if (canBeRed)
                 {
                     targetColor = new Color(1, 0, 0, 0.3f); // Set target color to Red with transparency
+                 
                     materialInstance.SetColor("_TargetColor", targetColor);
-
+             
                     hitPoint = collisionPoint;
 
 
                     spread = 0f; // Reset the lerp timer
+                    if (notPuzzle)
+                    {
+                        break;
+                    }
                     gameObject.layer = ghostMask;
                     if (_Effector != null)
                         _Effector.useColliderMask = false;
@@ -122,11 +133,16 @@ public class ObjectColoring : MonoBehaviour
                 if (canBeYellow)
                 {
                     targetColor = Color.yellow; // Set target color to Yellow
+           
                     materialInstance.SetColor("_TargetColor", targetColor);
-
+         
                     hitPoint = collisionPoint;
 
                     spread = 0f; // Reset the lerp timer
+                    if (notPuzzle)
+                    {
+                        break;
+                    }
                     gameObject.layer = groundMask;
                     if (_Effector != null)
                         _Effector.useColliderMask = true;

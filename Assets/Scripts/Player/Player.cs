@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
     public Dictionary<ColorPicker.ColorEnum, int> Colors = new Dictionary<ColorPicker.ColorEnum, int>();
     public ColorBar colorBar;
+    public ColorCountUI cC;
     public SelectedColor selectedColor;
 
     ColorPicker.ColorEnum _currentColor;
@@ -89,6 +90,7 @@ public class Player : MonoBehaviour
     public void UpdateColorUI(ColorPicker.ColorEnum color)
     {
         colorBar.UpdateAmount(Colors[color]);
+        cC.UpdateAmount(Colors[color],color);
         _currentColor = color;        
     }
 
