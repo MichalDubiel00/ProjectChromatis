@@ -20,7 +20,6 @@ public class SettingsMenu : MonoBehaviour
     public void ChangeSoundFXVolume(float volume)
     {
         _soundVolume = volume;
-        Debug.Log(_soundVolume+"First Volume");
         SoundManager.Instance.SetSoundFXVolume(_soundVolume);
     }
 
