@@ -7,6 +7,7 @@ public class PauseMent : MonoBehaviour
 {
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button menuButton;
+    [SerializeField] private GameObject settingsMenu;
 
     private void Awake()
     {
@@ -38,6 +39,12 @@ public class PauseMent : MonoBehaviour
         Show();
     }
 
+    public void OpenOptions()
+    {
+        settingsMenu.SetActive(true);
+        gameObject.SetActive(false);
+    }
+    
     private void Show()
     {
         gameObject.SetActive(true);
