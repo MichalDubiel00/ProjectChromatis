@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
 	//Temp for Playroom presentation
 	public bool juiceOn = true;
     public PlayerMovement juicyMovment;
-    public SimplePlayerMovment simpleMovment;
 
     //Collected Colors capacity
     int colorCount = Enum.GetValues(typeof(ColorPicker.ColorEnum)).Length-1;
@@ -34,12 +33,10 @@ public class Player : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        GameInput.instance.OnToggleAction += GameInput_OnToggleAction; ;
         GameInput.instance.OnDebugAction += GameInput_OnDebugAction;
         GameInput.instance.OnNextColorAction += GameInput_OnNextColorAction;
         GameInput.instance.OnPreviousColorAction += GameInput_OnPreviousColorAction;
 
-        simpleMovment.enabled = false;
 
         Init();
     }
@@ -66,24 +63,6 @@ public class Player : MonoBehaviour
 
     }
 
-    private void GameInput_OnToggleAction(object sender, System.EventArgs e)
-    {
-        if (juiceOn)
-        {
-            juiceOn = false;
-            Debug.Log("Juicy Movment On");
-            simpleMovment.enabled = false;
-            juicyMovment.enabled = true;
-        }
-        else
-        {
-            juiceOn = true;
-            Debug.Log("Juicy Movment Off");
-            simpleMovment.enabled = true;
-            juicyMovment.enabled = false;
-            
-        }
-    }
 
     private void GameInput_OnDebugAction(object sender, System.EventArgs e)
     {
