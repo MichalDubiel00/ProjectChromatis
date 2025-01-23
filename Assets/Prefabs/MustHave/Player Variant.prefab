@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 767811880947128842, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
+      propertyPath: simpleMovment
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 767811880947128842, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
       propertyPath: colorBars.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -156,7 +160,8 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3755044877396985509, guid: a2849830da8d3df43bcbfd4a15152b8b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

@@ -65,7 +65,7 @@ public class ObjectColoring : MonoBehaviour
                                                                        
     }
 
-        public void ChangePlatformProporties(ColorPicker.ColorEnum color,Vector2 collisionPoint)
+    public void ChangePlatformProporties(ColorPicker.ColorEnum color,Vector2 collisionPoint)
     {
         ColorPicker.ColorEnum prevColor = currentColor;
         currentColor = color;
