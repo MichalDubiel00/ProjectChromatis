@@ -3596,6 +3596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 0
   canBeRed: 1
   canBeYellow: 0
@@ -4234,6 +4235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 0
   canBeRed: 1
   canBeYellow: 1
@@ -8488,6 +8490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 0
   canBeRed: 1
   canBeYellow: 1
