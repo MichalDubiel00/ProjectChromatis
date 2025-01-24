@@ -3408,6 +3408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 0
   canBeRed: 1
   canBeYellow: 0
@@ -4041,6 +4042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 0
   canBeRed: 1
   canBeYellow: 1
@@ -5566,6 +5568,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 50976420499576866, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 50976420499576866, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 50976420499576866, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 50976420499576866, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1212132965154128589, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -8264,6 +8282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 0
   canBeRed: 1
   canBeYellow: 1
@@ -10353,6 +10372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  notPuzzle: 0
   canBeBlue: 1
   canBeRed: 1
   canBeYellow: 1

@@ -1318,6 +1318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenuUI
       objectReference: {fileID: 0}
+    - target: {fileID: 4371677541629292931, guid: 07223825e04e0324da1cf965119eb948, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7074938365749579146, guid: 07223825e04e0324da1cf965119eb948, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -1461,6 +1465,30 @@ PrefabInstance:
     - target: {fileID: 8175598891931650382, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 797
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461091140821741908, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461091140821741908, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461091140821741908, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 333.791
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461091140821741908, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 43.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461091140821741908, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 167
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461091140821741908, guid: 19a56ae42ae5b914096ca0c6cc4e2144, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -19.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
