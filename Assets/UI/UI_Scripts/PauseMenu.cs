@@ -16,7 +16,7 @@ public class PauseMent : MonoBehaviour
         });
         menuButton.onClick.AddListener(() => {
             GameMananger.instance.TogglePauseGame();
-            Loader.Load(Loader.Scene.MainMenuScene);
+            Loader.Load(Loader.Scene.Menu);
         });
     }
     private void Start()

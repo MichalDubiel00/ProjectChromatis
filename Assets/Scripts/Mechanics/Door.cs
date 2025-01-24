@@ -27,6 +27,8 @@ public class Door : MonoBehaviour
         Player player = collision.GetComponent<Player>();
         if (player != null)
             OpenDoor();
+        FindAnyObjectByType<Fade>().startFade = true;
+        StartCoroutine(LoadNewLevel());
 
     }
 
@@ -50,7 +52,6 @@ public class Door : MonoBehaviour
             spriteRenderer.sprite = closedDoorSprite;
             isOpen = false;
         }
-        StartCoroutine(LoadNewLevel());
     }
     void OpenDoor()
     {

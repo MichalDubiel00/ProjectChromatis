@@ -5,13 +5,31 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
+[System.Serializable]
+public class Music
+{
+    public AudioClip clip;
+
+    public string name;
+
+    [Range(0f, 1f)]
+    public float volume;
+    [Range(0.1f, 3f)]
+    public float pitch;
+
+    public bool loop;
+}
+
 public class SoundManager : MonoBehaviour
 {
 	//singleton instance of Soundmanager
 	public static SoundManager Instance { get; private set; }
 
-	//Setup saver for incoming colliders each frame to not play them multiple times;
-	private HashSet<(Collider2D, Collider2D)> registeredPairs = new HashSet<(Collider2D, Collider2D)>();
+    [SerializeField] Music[] music;
+
+
+    //Setup saver for incoming colliders each frame to not play them multiple times;
+    private HashSet<(Collider2D, Collider2D)> registeredPairs = new HashSet<(Collider2D, Collider2D)>();
 	//SetupAudioMixer for Options to change Volume
 	[SerializeField] private AudioMixer audioMixer;
 	[SerializeField] AudioSource musicSource;
@@ -41,9 +59,19 @@ public class SoundManager : MonoBehaviour
 		{
 			Destroy(gameObject);
 		}
-	}
 
-	private void Update()
+        foreach (var sound in music)
+        {
+            SetMusicVolume(sound.volume);
+            musicSource.pitch = sound.pitch;
+            musicSource.loop = sound.loop;
+        }
+    }
+    private void Start()
+    {
+        PlayMusic("Music");
+    }
+    private void Update()
 	{
 		//Clearing registered pairs at start of each frame
 		registeredPairs.Clear();
@@ -91,6 +119,17 @@ public class SoundManager : MonoBehaviour
 	{
 		SFXSource.PlayOneShot(audioClip);
 	}
+
+    public void PlayMusic(string name)
+    {
+        Music m = Array.Find(music, x => x.name == name);
+        if (m == null)
+        {
+            return;
+        }
+        musicSource.clip = m.clip;
+        musicSource.Play();
+    }
 }
 
 

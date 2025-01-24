@@ -21,7 +21,8 @@ public static class Loader
         MovementTestingScene,
         Tutorial,
         LevelOneNam02,
-        Menu
+        Menu,
+        EndScreen
     }
 
     private static Scene targetScene;
