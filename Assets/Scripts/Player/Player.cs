@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
 
     public void ChangeColor(ColorPicker.ColorEnum choosenColor)
     {
-        selectedColor.UpdateSelected(choosenColor);
         colorBar.SetColorGradient(choosenColor);
+        selectedColor.UpdateSelected(choosenColor);
     }
 }

@@ -3641,6 +3641,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8770367312347363308, guid: d443b9551b1f4334b8ef72e4abe962ea, type: 3}
   m_PrefabInstance: {fileID: 622354046}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &659735933 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2137471154175924182, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
+  m_PrefabInstance: {fileID: 7543283914852436919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff22a242942e544b87f517f90570305, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &660382934
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6414,17 +6425,6 @@ PolygonCollider2D:
       - {x: 0.39155388, y: 3.1080534}
       - {x: -1.3976071, y: 2.8210201}
   m_UseDelaunayMesh: 0
---- !u!114 &1100790977 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2137471154175924182, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
-  m_PrefabInstance: {fileID: 7543283914852436919}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ff22a242942e544b87f517f90570305, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1115967225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10364,6 +10364,7 @@ GameObject:
   - component: {fileID: 1591503087}
   - component: {fileID: 1591503086}
   - component: {fileID: 1591503088}
+  - component: {fileID: 1591503089}
   m_Layer: 3
   m_Name: tiles8stoneBIG4 (3)
   m_TagString: Untagged
@@ -10391,7 +10392,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 94c03aef0433110469ba3a23844a00e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10564,6 +10565,33 @@ PolygonCollider2D:
       - {x: -0.195, y: -2.885}
       - {x: -0.095, y: -2.825}
   m_UseDelaunayMesh: 0
+--- !u!114 &1591503089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591503084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0e52b1946359494db09a8b2a6bde3a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notPuzzle: 1
+  canBeBlue: 1
+  canBeRed: 1
+  canBeYellow: 1
+  platformController: {fileID: 0}
+  currentColor: 3
+  maxSpread: 1.3
+  _SpriteRenderer: {fileID: 0}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  spread: 0
 --- !u!1001 &1625310361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10736,7 +10764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8448530160551342730, guid: 09584cff35dc50a448638cae55b20794, type: 3}
       propertyPath: scene
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8448530160551342730, guid: 09584cff35dc50a448638cae55b20794, type: 3}
       propertyPath: openDoorSprite
@@ -14641,7 +14669,7 @@ PrefabInstance:
     - target: {fileID: 3030402436669141296, guid: 8737b72f0d415484fa363974e58f1986, type: 3}
       propertyPath: colorBar
       value: 
-      objectReference: {fileID: 1100790977}
+      objectReference: {fileID: 659735933}
     - target: {fileID: 3030402436669141296, guid: 8737b72f0d415484fa363974e58f1986, type: 3}
       propertyPath: selectedColor
       value: 
@@ -14932,7 +14960,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 50976420499576866, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 692
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 832043852866025135, guid: fac4643a565beb14482b9c19b64a9a2c, type: 3}
       propertyPath: m_AnchoredPosition.y

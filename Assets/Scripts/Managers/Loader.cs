@@ -19,10 +19,11 @@ public static class Loader
         MichalWorkingOnplatformsScene,
         LevelOneNam,
         MovementTestingScene,
-        Tutorial,
         LevelOneNam02,
         Menu,
-        EndScreen
+        EndScreen,
+        Tutorial1,
+        Tutorial
     }
 
     private static Scene targetScene;
